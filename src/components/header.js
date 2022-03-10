@@ -13,7 +13,7 @@ export default function Header() {
       <div className="container mx-auto max-w-screen-lg h-full">
         <div className="flex justify-between h-full">
           <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
-            <h1 className="flex justify-center w-full">
+            <h1 className="ml-2 flex justify-center w-full">
               <Link to={ROUTES.DASHBOARD} aria-label="Instagram logo">
                 <img
                   src="/images/logo.png"
@@ -23,9 +23,10 @@ export default function Header() {
               </Link>
             </h1>
           </div>
-          <div className="text-gray-700 text-center flex items-center align-items">
+          <div className="mr-2 text-gray-700 text-center flex items-center align-items">
             {user ? (
               <>
+                {/* Caso usuário autenticado */}
                 <Link to={ROUTES.DASHBOARD} aria-label="Dashboard">
                   <svg
                     className="w-8 mr-6 text-black-light cursor-pointer"
@@ -77,7 +78,25 @@ export default function Header() {
                 </div>
               </>
             ) : (
-              <></>
+              <>
+                {/* Caso de usuário não autenticado */}
+                <Link to={ROUTES.LOGIN}>
+                  <button
+                    type="button"
+                    className="bg-blue-medium font-bold text-sm rounded text-white w-20 h-8"
+                  >
+                    Log In
+                  </button>
+                </Link>
+                <Link to={ROUTES.SIGNUP}>
+                  <button
+                    type="button"
+                    className="font-bold text-sm rounded text-blue-medium w-20 h-8"
+                  >
+                    Sign Up
+                  </button>
+                </Link>
+              </>
             )}
           </div>
         </div>
@@ -85,3 +104,4 @@ export default function Header() {
     </header>
   );
 }
+//{{/*bg-blue-medium font-bold text-sm rounded text-white */}}
