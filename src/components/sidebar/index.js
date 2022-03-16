@@ -11,7 +11,11 @@ export default function Sidebar() {
   return (
     <div className="p-4">
       <User username={username} fullname={fullname} />
-      <Suggestions userId={userId} following={following} />
+      <Suggestions
+        userId={userId}
+        following={following}
+        loggedInUserDocId={docId}
+      />
     </div>
   );
 }
