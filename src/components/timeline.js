@@ -1,10 +1,10 @@
 import Skeleton from "react-loading-skeleton";
 import usePhotos from "../hooks/use-photos";
+import Post from "./post";
 
 export default function Timeline() {
   // we need to get the logged in user's photos (hook)
   const { photos } = usePhotos();
-  console.log("photos", photos);
   // on loading the photos, we need to use react skeleton
   // if we have photos, render them (create a post component)
   // if the usar has no photos, tell them to create some photos
@@ -16,7 +16,7 @@ export default function Timeline() {
           <Skeleton className="mb-5" count={4} width={640} height={500} />
         </>
       ) : photos?.length > 0 ? (
-        photos.map((content) => <p key={content.docId}>{content.imageSrc}</p>)
+        photos.map((content) => <Post key={content.docId} content={content} />)
       ) : (
         <p className="text-center text-2xl">Follow people to see photos</p>
       )}

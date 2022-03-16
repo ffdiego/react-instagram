@@ -17,7 +17,6 @@ export default function Login() {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
       navigate(ROUTES.DASHBOARD);
-      //console.log("deu certo!")
     } catch (error) {
       setEmail("");
       setPassword("");
