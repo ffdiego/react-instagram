@@ -1,9 +1,8 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { formatDistance } from "date-fns";
-import { ptBR } from "date-fns/esm/locale";
 import { Link } from "react-router-dom";
-import pt from "date-fns/esm/locale/pt/index.js";
+import AddComment from "./addComment";
 
 export default function Comments({
   docId,
@@ -32,6 +31,12 @@ export default function Comments({
           {formatDistance(posted, new Date())} ago
         </p>
       </div>
+      <AddComment
+        docId={docId}
+        comments={comments}
+        setComments={setComments}
+        commentInput={commentInput}
+      />
     </>
   );
 }
