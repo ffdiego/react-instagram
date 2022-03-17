@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import FirebaseContext from "../context/firebase";
 import * as ROUTES from "../constants/routes";
 
-export default function Login() {
+export default function Login({ user }) {
   const navigate = useNavigate();
   const { firebase } = useContext(FirebaseContext);
   const [email, setEmail] = useState("");
