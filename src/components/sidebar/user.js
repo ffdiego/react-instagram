@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const User = ({ username, fullname }) =>
   !username || !fullname ? (
-    <Skeleton />
+    <Skeleton height={47} />
   ) : (
     <Link
       to={`/p/${username}`}

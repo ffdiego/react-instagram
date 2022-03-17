@@ -763,6 +763,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 2rem;
 }
 
+.pl-0 {
+  padding-left: 0px;
+}
+
+.pr-5 {
+  padding-right: 1.25rem;
+}
+
 .pt-1 {
   padding-top: 0.25rem;
 }
@@ -777,14 +785,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pb-0 {
   padding-bottom: 0px;
-}
-
-.pl-0 {
-  padding-left: 0px;
-}
-
-.pr-5 {
-  padding-right: 1.25rem;
 }
 
 .text-center {
