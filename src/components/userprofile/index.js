@@ -1,12 +1,15 @@
 import { useState, useReducer, useEffect } from "react";
 import PropTypes from "prop-types";
 import Skeleton from "react-loading-skeleton";
-import ProfileHeader from "./profileHeader";
-
 import { getUserPhotosByUsername } from "../../services/firebase";
 
-export default function UserProfile({ username }) {
+import ProfileHeader from "./profileHeader";
+import Photos from "./photos";
+
+export default function UserProfile({ user }) {
   //reducer
+  const username = user.username;
+
   const reducer = (state, newState) => ({ ...state, ...newState });
   const initialState = {
     profile: {},
@@ -21,16 +24,38 @@ export default function UserProfile({ username }) {
   useEffect(() => {
     async function getProfileInfoAndPhotos() {
       const photos = await getUserPhotosByUsername(username);
-      console.log(photos);
-      //dispatch({ profile: user, photosCollection: photos, followerCount: user.followers.length});
+
+      dispatch({
+        profile: user,
+        photosCollection: photos,
+        followerCount: user.followers.length,
+      });
     }
     if (username) getProfileInfoAndPhotos();
-  }, [username]);
+  }, [username, user]);
 
   return (
     <>
-      <ProfileHeader />
+      <ProfileHeader
+        photosCount={photosCollection ? photosCollection.length : 0}
+        profile={profile}
+        followerCount={followerCount}
+        setFollowercount={dispatch}
+      />
+      <Photos photos={photosCollection} />
       <p>Hello {username}</p>
     </>
   );
 }
+
+UserProfile.propTypes = {
+  user: PropTypes.shape({
+    dateCreated: PropTypes.number,
+    emailAddress: PropTypes.string,
+    followers: PropTypes.array,
+    following: PropTypes.array,
+    fullName: PropTypes.string,
+    userId: PropTypes.string,
+    username: PropTypes.string,
+  }),
+};

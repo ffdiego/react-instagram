@@ -24,12 +24,12 @@ export default function Profile() {
     checkUserExists();
   }, [username, navigate]);
 
-  return (
+  return user ? (
     <div className="bg-gray-background">
       <Header />
       <div className="mx-auth max-w-screen-lg">
-        <UserProfile username={username} />
+        <UserProfile user={user} />
       </div>
     </div>
-  );
+  ) : null;
 }
