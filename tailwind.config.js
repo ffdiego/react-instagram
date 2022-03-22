@@ -20,6 +20,7 @@ module.exports = {
       },
       red: {
         primary: "#ed4956",
+        medium: "#bd2800",
       },
     },
     extend: {},

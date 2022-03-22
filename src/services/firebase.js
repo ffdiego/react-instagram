@@ -133,10 +133,5 @@ export async function isUserFollowingProfile(
     .where("username", "==", loggedInUserUsername)
     .where("following", "array-contains", profileUserId)
     .get();
-
-  const [response = {}] = result.docs.map((item) => ({
-    ...item.data(),
-    docId: item.id,
-  }));
-  console.log("response", response);
+  return !result.empty;
 }
