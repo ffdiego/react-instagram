@@ -1,9 +1,10 @@
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { getUserPhotosByUsername } from "../../services/firebase";
 
 import ProfileHeader from "./profileHeader";
 import Photos from "./photos";
+import Overlay from "./overlay";
 
 export default function UserProfile({ user }) {
   //reducer
@@ -20,6 +21,8 @@ export default function UserProfile({ user }) {
     initialState
   );
 
+  const [showOverlay, setShowOverlay] = useState(false);
+
   useEffect(() => {
     async function getProfileInfoAndPhotos() {
       const photos = await getUserPhotosByUsername(username);
@@ -34,7 +37,7 @@ export default function UserProfile({ user }) {
   }, [username, user]);
 
   return (
-    <>
+    <div className={showOverlay ? "h-full overflow-hidden" : ""}>
       <ProfileHeader
         photosCount={photosCollection ? photosCollection.length : 0}
         profile={profile}
@@ -42,7 +45,8 @@ export default function UserProfile({ user }) {
         setFollowercount={dispatch}
       />
       <Photos photos={photosCollection} />
-    </>
+      <Overlay />
+    </div>
   );
 }
 
