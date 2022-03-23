@@ -1,6 +1,7 @@
 import Firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
+import { getStorage, ref } from "firebase/storage";
 
 //here i want to import the seed file
 //import { seedDatabase } from "../seed";
@@ -17,5 +18,7 @@ const config = {
 
 const firebase = Firebase.initializeApp(config);
 const { FieldValue } = Firebase.firestore;
+const storage = getStorage(firebase);
+const sref = ref(storage);
 
-export { firebase, FieldValue };
+export { firebase, FieldValue, storage, sref };
