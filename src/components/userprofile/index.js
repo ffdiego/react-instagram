@@ -1,6 +1,5 @@
-import { useState, useReducer, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 import PropTypes from "prop-types";
-import Skeleton from "react-loading-skeleton";
 import { getUserPhotosByUsername } from "../../services/firebase";
 
 import ProfileHeader from "./profileHeader";

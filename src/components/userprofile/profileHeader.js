@@ -1,9 +1,8 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Skeleton from "react-loading-skeleton";
 import useUser from "../../hooks/use-user";
-import { isUserFollowingProfile } from "../../services/firebase";
-import UserContext from "../../context/user";
+import { isUserFollowingProfile, toggleFollow } from "../../services/firebase";
 
 export default function ProfileHeader({
   photosCount,
@@ -13,8 +12,9 @@ export default function ProfileHeader({
     //this represents the current profile being viewed
     docId: profileDocId,
     userId: profileUserId,
-    fullname,
+    fullName: fullname,
     following = [],
+    followers = [],
     username: profileUsername,
   },
 }) {
@@ -23,8 +23,18 @@ export default function ProfileHeader({
   const [isFollowingProfile, setIsFollowingProfile] = useState(false);
   const activeBtnFollow = profileUsername && profileUsername !== user.username;
 
-  const handleToggleFollow = () => {
+  const handleToggleFollow = async () => {
+    setFollowercount({
+      followerCount: isFollowingProfile ? followerCount - 1 : followerCount + 1,
+    });
     setIsFollowingProfile(!isFollowingProfile);
+    await toggleFollow(
+      isFollowingProfile,
+      user.docId,
+      profileDocId,
+      profileUserId,
+      user.userId
+    );
   };
 
   useEffect(() => {
@@ -63,6 +73,30 @@ export default function ProfileHeader({
             </button>
           )}
         </div>
+        <div className="container flex mt-4">
+          {followers === undefined || following === undefined ? (
+            <Skeleton />
+          ) : (
+            <>
+              <p className="mr-10">
+                <span className="font-bold">{photosCount}</span>
+                {photosCount !== 1 ? " photos" : " photo"}
+              </p>
+              <p className="mr-10">
+                <span className="font-bold">{followerCount}</span>
+                {followers !== 1 ? " followers" : " follower"}
+              </p>
+              <p className="mr-10">
+                <span className="font-bold">{following.length}</span> following
+              </p>
+            </>
+          )}
+        </div>
+        <div className="container mt-4">
+          <p className="font-medium">
+            {!fullname ? <Skeleton width={300} /> : fullname}
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -78,5 +112,6 @@ ProfileHeader.propTypes = {
     fullname: PropTypes.string,
     username: PropTypes.string,
     following: PropTypes.array,
+    followers: PropTypes.array,
   }).isRequired,
 };
