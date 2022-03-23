@@ -16,6 +16,7 @@ module.exports = {
       gray: {
         base: "#616161",
         background: "#fafafa",
+        overlay: "#000000a6",
         primary: "#dbdbdb",
       },
       red: {
