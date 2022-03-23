@@ -27,7 +27,11 @@ export default function Header() {
             {user ? (
               <>
                 {/* Caso usuário autenticado */}
-                <Link to={ROUTES.DASHBOARD} aria-label="Dashboard">
+                <Link
+                  type="button"
+                  to={ROUTES.DASHBOARD}
+                  aria-label="Dashboard"
+                >
                   <svg
                     className="w-8 mr-6 text-black-light cursor-pointer"
                     xmlns="http://www.w3.org/2000/svg"
@@ -104,4 +108,3 @@ export default function Header() {
     </header>
   );
 }
-//{{/*bg-blue-medium font-bold text-sm rounded text-white */}}

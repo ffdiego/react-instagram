@@ -12,7 +12,7 @@ export default function ProfileHeader({
     //this represents the current profile being viewed
     docId: profileDocId,
     userId: profileUserId,
-    fullName: fullname,
+    fullname,
     following = [],
     followers = [],
     username: profileUsername,
