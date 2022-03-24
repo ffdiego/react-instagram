@@ -22,6 +22,16 @@ export default function UserProfile({ user }) {
   );
 
   const [showOverlay, setShowOverlay] = useState(false);
+  const [activePhoto, setActivePhoto] = useState(null);
+
+  function toggleOverlay(e, photo) {
+    //if (e.target.id == "outer" || e.target.id == "photo-item")
+    if (photo) {
+      console.log("received:", photo);
+      setActivePhoto(photo);
+    }
+    setShowOverlay(!showOverlay);
+  }
 
   useEffect(() => {
     async function getProfileInfoAndPhotos() {
@@ -44,8 +54,12 @@ export default function UserProfile({ user }) {
         followerCount={followerCount}
         setFollowercount={dispatch}
       />
-      <Photos photos={photosCollection} />
-      <Overlay />
+      <Photos photos={photosCollection} toggleOverlay={toggleOverlay} />
+      <Overlay
+        showOverlay={showOverlay}
+        toggleOverlay={toggleOverlay}
+        activePhoto={activePhoto}
+      />
     </div>
   );
 }

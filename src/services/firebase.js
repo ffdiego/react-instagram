@@ -106,7 +106,6 @@ export async function getPhotos(userId, following) {
       return { username, ...photo, userLikedPhoto };
     })
   );
-
   return photosWithUserDetails;
 }
 
@@ -117,6 +116,7 @@ export async function getUserPhotosByUsername(username) {
     .collection("photos")
     .where("userId", "==", user.userId)
     .get();
+
   return result.docs.map((item) => ({
     ...item.data(),
     docId: item.id,
