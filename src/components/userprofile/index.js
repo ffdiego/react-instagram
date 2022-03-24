@@ -27,7 +27,6 @@ export default function UserProfile({ user }) {
   function toggleOverlay(e, photo) {
     //if (e.target.id == "outer" || e.target.id == "photo-item")
     if (photo) {
-      console.log("received:", photo);
       setActivePhoto(photo);
     }
     setShowOverlay(!showOverlay);
@@ -58,7 +57,8 @@ export default function UserProfile({ user }) {
       <Overlay
         showOverlay={showOverlay}
         toggleOverlay={toggleOverlay}
-        activePhoto={activePhoto}
+        photo={activePhoto}
+        profile={profile}
       />
     </div>
   );
