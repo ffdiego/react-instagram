@@ -1,18 +1,13 @@
 import { Link } from "react-router-dom";
+import Avatar from "./avatar";
 
 export default function Comment({ author, message, posted }) {
   return (
     <div className="px-3 pt-1 pb-4 mt-1 mb-3">
       <div className="flex flex-initial">
-        <Link to={`/p/${author}`} className="flex-none">
-          <img
-            className="w-8 rounded-full mr-2"
-            alt={`${author} avatar`}
-            src={`/images/avatars/${author}.jpg`}
-          />
-        </Link>
+        <Avatar username={author} />
         <p className="align-top">
-          <a href={`/p/${author}`} className="mr-1 font-bold">
+          <a href={`/${author}`} className="mr-1 font-bold text-sm">
             {author}
           </a>
           {message}

@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getUserByUsername } from "../services/firebase";
+import { getUser } from "../services/firebase";
 import * as ROUTES from "../constants/routes";
 
 import Header from "../components/header";
@@ -14,7 +14,7 @@ export default function Profile() {
 
   useEffect(() => {
     async function checkUserExists() {
-      const userinfo = await getUserByUsername(username);
+      const userinfo = await getUser(username);
       if (userinfo) {
         setUser(userinfo[0]);
       } else {

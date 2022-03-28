@@ -10,7 +10,7 @@ export default function Timeline() {
   // if the usar has no photos, tell them to create some photos
 
   return (
-    <div className="container col-span-2">
+    <div className="mt-20 container col-span-2">
       {!photos ? (
         <>
           <Skeleton className="mb-5" count={4} height={500} />

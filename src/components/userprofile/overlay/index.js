@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
+import Avatar from "./avatar";
 import Comment from "./comment";
-import AddComment from "../../post/addComment";
+import AddComment from "./addComment";
 
 export default function Overlay({
   showOverlay,
   toggleOverlay,
   photo,
   profile,
+  isFollowing,
 }) {
   return (
     <div
@@ -31,18 +33,16 @@ export default function Overlay({
           style={{ width: "500px" }}
         >
           {/* Header */}
-          <div className="flex items-center p-4 border-b border-gray-primary">
-            <Link to={`/p/${profile.username}`}>
-              <img
-                className="w-12 rounded-full mr-3"
-                alt={`${profile.username} avatar`}
-                src={`/images/avatars/${profile.username}.jpg`}
-              />
-            </Link>
+          <div className="flex items-center p-4 px-3 border-b border-gray-primary">
+            <Avatar username={profile.username} />
             <div className="items-center">
-              <Link to={`/p/${profile.username}`} className="font-bold text-sm">
+              <Link
+                to={`/${profile.username}`}
+                className="font-bold text-sm mr-1"
+              >
                 {profile.username}
               </Link>
+              • <span className="font-bold text-blue-medium">Follow</span>
             </div>
           </div>
           <div className="flex-grow">
@@ -51,13 +51,15 @@ export default function Overlay({
               photo.comments.map((item) => (
                 <Comment
                   key={item.comment}
-                  author={item.displayName}
+                  author={item.username}
                   message={item.comment}
                 />
               ))}
           </div>
           <div>
-            <AddComment docId={photo?.docId} comments={photo?.comments} />
+            {photo && (
+              <AddComment docId={photo.docId} comments={photo.comments} />
+            )}
           </div>
         </div>
       </div>

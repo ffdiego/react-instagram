@@ -8,7 +8,7 @@ const User = ({ username, fullname }) =>
     <Skeleton height={47} />
   ) : (
     <Link
-      to={`/p/${username}`}
+      to={`/${username}`}
       className="grid grid-cols-4 gap-4 mb-4 items-center"
     >
       <div className="flex items-center justify-between col-span-1">
