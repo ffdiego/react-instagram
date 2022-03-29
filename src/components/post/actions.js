@@ -9,9 +9,7 @@ export default function Actions({
   likedPhoto,
   handleFocus,
 }) {
-  const {
-    user: { uid: userId },
-  } = useContext(UserContext);
+  const username = useContext(UserContext).username;
 
   const [toggleLiked, setToggleLiked] = useState(likedPhoto);
   const [likes, setLikes] = useState(totalLikes);
@@ -26,8 +24,8 @@ export default function Actions({
       .doc(docId)
       .update({
         likes: toggleLiked
-          ? FieldValue.arrayRemove(userId)
-          : FieldValue.arrayUnion(userId),
+          ? FieldValue.arrayRemove(username)
+          : FieldValue.arrayUnion(username),
       });
 
     setLikes((likes) => (toggleLiked ? likes - 1 : likes + 1));

@@ -7,11 +7,11 @@ import useUser from "../hooks/use-user";
 
 export default function Header() {
   const { firebase } = useContext(FirebaseContext);
-  const { user } = useContext(UserContext);
-  const { username } = useUser().user;
-  console.log(username);
+  const user = useContext(UserContext);
+  const username = user.username;
+
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-primary mb-8">
+    <header className="fixed top-0 left-0 right-0 h-16 z-10 bg-white border-b border-gray-primary mb-8">
       <div className="container mx-auto max-w-screen-lg h-full">
         <div className="flex justify-between h-full">
           <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">

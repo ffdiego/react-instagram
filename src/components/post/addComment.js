@@ -11,9 +11,7 @@ export default function AddComment({
 }) {
   const [comment, setComment] = useState("");
   const { firebase, FieldValue } = useContext(FirebaseContext);
-  const {
-    user: { username },
-  } = useContext(UserContext);
+  const username = useContext(UserContext).username;
 
   const handleSubmitComment = (e) => {
     e.preventDefault();

@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import useUser from "../../hooks/use-user";
 import User from "./user";
 import Suggestions from "./suggestions";
+import UserContext from "../../context/user";
 
 export default function Sidebar() {
-  const {
-    user: { docId, fullname, username, userId, following },
-  } = useUser();
+  const { docId, fullname, username, following } = useContext(UserContext);
 
   return (
     <div className="mt-20 p-4">
@@ -15,5 +14,3 @@ export default function Sidebar() {
     </div>
   );
 }
-
-Sidebar.whyDidYouRender = false;

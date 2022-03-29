@@ -11,9 +11,7 @@ export default function AddComment({
   commentInput,
 }) {
   const [comment, setComment] = useState("");
-  const {
-    user: { username },
-  } = useContext(UserContext);
+  const username = useContext(UserContext).username;
 
   const handleSubmitComment = (e) => {
     e.preventDefault();

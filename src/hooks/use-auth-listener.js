@@ -18,5 +18,14 @@ export default function useAuthListener() {
       }
     });
   }, [firebase]);
-  return user.displayName;
+  console.log(user);
+  if (user) {
+    const obj = {
+      username: user?.displayName,
+      email: user?.email,
+      lastLogin: user?.metadata?.lastLoginAt,
+      createdAt: user?.metadata?.createdAt,
+    };
+    return obj;
+  } else return null;
 }
