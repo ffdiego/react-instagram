@@ -26,24 +26,27 @@ export default function useAuthListener() {
   }, [firebase]);
 
   useEffect(() => {
-    setMoreinfo(getUser(user?.displayName));
-    setFormattedUser({
-      username: user?.displayName,
-      email: user?.email,
-      lastLogin: user?.metadata?.lastLoginAt,
-      createdAt: user?.metadata?.createdAt,
-    });
+    if (user) {
+      setMoreinfo(getUser(user?.displayName));
+      setFormattedUser({
+        username: user?.displayName,
+        email: user?.email,
+        lastLogin: user?.metadata?.lastLoginAt,
+        createdAt: user?.metadata?.createdAt,
+      });
+    }
   }, [user]);
 
   useEffect(() => {
-    moreinfo?.then((res) => {
-      setFormattedUser({
-        ...formattedUser,
-        following: res.following,
-        fullname: res.fullname,
+    if (user && moreinfo)
+      moreinfo.then((res) => {
+        setFormattedUser({
+          ...formattedUser,
+          following: res.following,
+          fullname: res.fullname,
+        });
       });
-    });
-  }, [moreinfo]);
+  }, [user, moreinfo]);
 
   return formattedUser;
 }
