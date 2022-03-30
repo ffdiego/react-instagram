@@ -1,26 +1,23 @@
-import { useReducer, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { getUserPhotosByUsername } from "../../services/firebase";
+import { getProfile, getUserPhotosByUsername } from "../../services/firebase";
 
 import ProfileHeader from "./profileHeader";
 import Photos from "./photos";
 import Overlay from "./overlay";
 
-export default function UserProfile({ user }) {
+export default function UserProfile({ profile }) {
   //reducer
-  const username = user.username;
-
   const reducer = (state, newState) => ({ ...state, ...newState });
   const initialState = {
-    profile: {},
     photosCollection: [],
     followerCount: 0,
   };
-  const [{ profile, photosCollection, followerCount }, dispatch] = useReducer(
+  const [{ photosCollection, followerCount }, dispatch] = useState(
     reducer,
     initialState
   );
-
+  const [profileInfo, setProfileInfo] = useState(null);
   const [showOverlay, setShowOverlay] = useState(false);
   const [activePhoto, setActivePhoto] = useState(null);
 
@@ -34,26 +31,20 @@ export default function UserProfile({ user }) {
 
   useEffect(() => {
     async function getProfileInfoAndPhotos() {
-      const photos = await getUserPhotosByUsername(username);
-
-      dispatch({
-        profile: user,
-        photosCollection: photos,
-        followerCount: user.followers.length,
-      });
+      setProfileInfo(await getProfile(profile.username));
+      console.log(profileInfo);
     }
-    if (username) getProfileInfoAndPhotos();
-  }, [username, user]);
+    if (profile.username) getProfileInfoAndPhotos();
+  }, [profile.username]);
 
   return (
-    <div className={showOverlay ? "h-full overflow-hidden" : ""}>
+    <div className={showOverlay ? "overflow-hidden" : ""}>
       <ProfileHeader
-        photosCount={photosCollection ? photosCollection.length : 0}
         profile={profile}
-        followerCount={followerCount}
+        info={profileInfo}
         setFollowercount={dispatch}
       />
-      <Photos photos={photosCollection} toggleOverlay={toggleOverlay} />
+      <Photos photos={profileInfo?.photos} toggleOverlay={toggleOverlay} />
       <Overlay
         showOverlay={showOverlay}
         toggleOverlay={toggleOverlay}

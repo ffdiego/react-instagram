@@ -1,7 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import FirebaseContext from "../context/firebase";
+import UserContext from "../context/user";
+import { getFollowing, getUser } from "../services/firebase";
 
 export default function useAuthListener() {
+  //formated object thats returned
+  const [formattedUser, setFormattedUser] = useState(null);
+  //additional info about the user that gets updated after the initial authenthication
+  const [moreinfo, setMoreinfo] = useState(null);
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("authUser"))
   );
@@ -18,14 +24,26 @@ export default function useAuthListener() {
       }
     });
   }, [firebase]);
-  console.log(user);
-  if (user) {
-    const obj = {
+
+  useEffect(() => {
+    setMoreinfo(getUser(user?.displayName));
+    setFormattedUser({
       username: user?.displayName,
       email: user?.email,
       lastLogin: user?.metadata?.lastLoginAt,
       createdAt: user?.metadata?.createdAt,
-    };
-    return obj;
-  } else return null;
+    });
+  }, [user]);
+
+  useEffect(() => {
+    moreinfo?.then((res) => {
+      setFormattedUser({
+        ...formattedUser,
+        following: res.following,
+        fullname: res.fullname,
+      });
+    });
+  }, [moreinfo]);
+
+  return formattedUser;
 }

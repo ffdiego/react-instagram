@@ -5,11 +5,7 @@ import Skeleton from "react-loading-skeleton";
 import { getSuggestedProfiles } from "../../services/firebase";
 import SuggestedProfile from "./SuggestedProfile";
 
-export default function Suggestions({
-  username,
-  following,
-  loggedInUserDocId,
-}) {
+export default function Suggestions({ username, following }) {
   const [profiles, setProfiles] = useState(null);
 
   useEffect(() => {
@@ -18,8 +14,8 @@ export default function Suggestions({
       setProfiles(response);
     }
 
-    if (username) suggestedProfiles();
-  }, [username]);
+    if (username && following) suggestedProfiles();
+  }, [username, following]);
 
   return !profiles ? (
     <Skeleton count={10} height={150} className="mt-5" />

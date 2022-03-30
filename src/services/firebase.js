@@ -16,8 +16,35 @@ export async function getUser(username) {
     .collection("users")
     .where("username", "==", username)
     .get();
-  const user = result.docs.map((item) => ({ ...item.data(), docId: item.id }));
-  return user.length > 0 ? user[0] : false;
+  const [user] = result.docs.map((item) => ({
+    ...item.data(),
+    docId: item.id,
+  }));
+  return user;
+}
+
+export async function getProfile(profile) {
+  const result = await firebase
+    .firestore()
+    .collection("users")
+    .where("username", "==", profile)
+    .get();
+
+  if (!result.empty) {
+    let [response] = result.docs.map((item) => ({
+      ...item.data(),
+      docId: item.id,
+    }));
+
+    response = {
+      ...response,
+      followerCount: (await getFollowers(profile)).length,
+      followingCount: response.following.length,
+      photos: await getUserPhotosByUsername(profile),
+    };
+    return response;
+  }
+  return false;
 }
 
 export async function getSuggestedProfiles(username, following) {
@@ -91,7 +118,7 @@ export async function getUserPhotosByUsername(username) {
   const result = await firebase
     .firestore()
     .collection("photos")
-    .where("username", "==", username)
+    .where("author", "==", username)
     .get();
 
   return result.docs.map((item) => ({
@@ -110,14 +137,16 @@ export async function isUserFollowingProfile(username, profile) {
   return !result.empty;
 }
 
-export async function toggleFollow(
-  isFollowingProfile,
-  activeUserDocId,
-  profileDocId,
-  profileUserId,
-  followingUserId
-) {
-  return;
+export async function getFollowers(username) {
+  let followers = [];
+  const result = await firebase
+    .firestore()
+    .collection("users")
+    .where("following", "array-contains", username)
+    .get();
+
+  result.docs.map((item) => (followers = [...followers, item.data().username]));
+  return followers;
 }
 
 export async function addCommentFB(username, comment, docId) {
