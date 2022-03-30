@@ -15,7 +15,7 @@ export default function AddComment({
 
   const handleSubmitComment = (e) => {
     e.preventDefault();
-    setComments([{ username, comment }, ...comments]);
+    setComments([...comments, { username, comment }]);
     setComment("");
     return firebase
       .firestore()
