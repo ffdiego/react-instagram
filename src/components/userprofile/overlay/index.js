@@ -12,26 +12,26 @@ export default function Overlay({
 }) {
   return (
     <div
-      className={`bg-gray-overlay h-screen w-screen mt-16 pb-20 top-0 left-0 fixed px-20 flex items-center z-20 ${
+      className={`bg-gray-overlay h-screen w-screen top-0 left-0 fixed px-20 flex items-center z-50 ${
         showOverlay || "hidden"
       }`}
       onClick={toggleOverlay}
     >
       {/* White Frame */}
       <div
-        className="bg-white h-fit max-h-full mx-auto w-fit drop-shadow-2xl rounded-r-lg flex items-strech"
+        className="bg-white [max-height:90%] mx-auto drop-shadow-2xl rounded-r-lg flex"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Photo (Left Side) */}
-        <div className="flex items-center max-w-xl min-h-fit">
-          <img className="max-h-full " src={photo?.imageSrc} />
-        </div>
+        <span className="bg-black-light flex justify-center max-w-2xl">
+          <img
+            className="self-center h-auto max-h-full object-cover w-auto"
+            src={photo?.imageSrc}
+          />
+        </span>
 
         {/* Information (Right Side) */}
-        <div
-          className="flex flex-col flex-shrink-0 justify-start flex-grow-0"
-          style={{ width: "500px" }}
-        >
+        <span className="flex flex-col flex-shrink-0 justify-start flex-grow-0 w-[500px]">
           {/* Header */}
           <div className="flex items-center p-4 px-3 border-b border-gray-primary">
             <Avatar username={profile.username} />
@@ -45,7 +45,7 @@ export default function Overlay({
               • <span className="font-bold text-blue-medium">Follow</span>
             </div>
           </div>
-          <div className="flex-grow">
+          <div className="flex-grow overflow-auto max-h-full">
             <Comment author={profile.username} message={photo?.caption} />
             {photo &&
               photo.comments.map((item) => (
@@ -61,7 +61,7 @@ export default function Overlay({
               <AddComment docId={photo.docId} comments={photo.comments} />
             )}
           </div>
-        </div>
+        </span>
       </div>
     </div>
   );
