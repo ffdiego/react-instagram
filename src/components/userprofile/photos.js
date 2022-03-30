@@ -4,7 +4,7 @@ import Skeleton from "react-loading-skeleton";
 
 export default function Photos({ photos, toggleOverlay }) {
   return (
-    <div className="h-16 border-t border-gray-primary mt-12 pt-4">
+    <div className="mt-8">
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 mt-4 mb-12">
         {!photos ? (
           <>
@@ -14,7 +14,7 @@ export default function Photos({ photos, toggleOverlay }) {
           photos.map((photo) => (
             <div
               key={photo.docId}
-              className="relative group mb-2 app-overlay-toggler"
+              className="relative group mb-2"
               onClick={(e) => {
                 toggleOverlay(e, photo);
               }}
@@ -65,5 +65,5 @@ export default function Photos({ photos, toggleOverlay }) {
 }
 
 Photos.propTypes = {
-  photos: PropTypes.array.isRequired,
+  photos: PropTypes.array,
 };
