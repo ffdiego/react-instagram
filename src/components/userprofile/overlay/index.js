@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Avatar from "./avatar";
 import Comment from "./comment";
+import Actions from "./actions";
 import AddComment from "./addComment";
 
 export default function Overlay({
@@ -56,11 +57,13 @@ export default function Overlay({
                 />
               ))}
           </div>
-          <div>
-            {photo && (
+
+          {photo && (
+            <>
+              <Actions />
               <AddComment docId={photo.docId} comments={photo.comments} />
-            )}
-          </div>
+            </>
+          )}
         </span>
       </div>
     </div>
