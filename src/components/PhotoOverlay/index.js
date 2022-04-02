@@ -4,7 +4,7 @@ import Comment from "./comment";
 import Actions from "./actions";
 import AddComment from "./addComment";
 
-export default function Overlay({
+export default function PhotoOverlay({
   showOverlay,
   toggleOverlay,
   photo,

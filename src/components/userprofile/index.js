@@ -4,7 +4,7 @@ import { getProfile, getUserPhotosByUsername } from "../../services/firebase";
 
 import ProfileHeader from "./profileHeader";
 import Photos from "./photos";
-import Overlay from "./overlay";
+import PhotoOverlay from "../PhotoOverlay";
 
 export default function UserProfile({ profile }) {
   //reducer
@@ -45,7 +45,7 @@ export default function UserProfile({ profile }) {
         setFollowercount={dispatch}
       />
       <Photos photos={profileInfo?.photos} toggleOverlay={toggleOverlay} />
-      <Overlay
+      <PhotoOverlay
         showOverlay={showOverlay}
         toggleOverlay={toggleOverlay}
         photo={activePhoto}

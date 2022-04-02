@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
 import PropTypes from "prop-types";
-import FirebaseContext from "../../../context/firebase";
-import UserContext from "../../../context/user";
-import { addCommentFB } from "../../../services/firebase";
+import FirebaseContext from "../../context/firebase";
+import UserContext from "../../context/user";
+import { addCommentFB } from "../../services/firebase";
 
 export default function AddComment({
   docId,
