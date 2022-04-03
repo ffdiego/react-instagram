@@ -149,6 +149,18 @@ export async function getFollowers(username) {
   return followers;
 }
 
+export async function likePhoto(docId, username, remove) {
+  await firebase
+    .firestore()
+    .collection("photos")
+    .doc(docId)
+    .update({
+      likes: remove
+        ? FieldValue.arrayRemove(username)
+        : FieldValue.arrayUnion(username),
+    });
+}
+
 export async function addCommentFB(username, comment, docId) {
   return firebase
     .firestore()

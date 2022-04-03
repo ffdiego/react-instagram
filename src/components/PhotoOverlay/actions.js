@@ -1,36 +1,25 @@
 import { useState, useContext } from "react";
 import PropTypes from "prop-types";
+import { likePhoto } from "../../services/firebase";
 import FirebaseContext from "../../context/firebase";
 import UserContext from "../../context/user";
 
-export default function Actions({
-  docId,
-  totalLikes,
-  likedPhoto,
-  handleFocus,
-}) {
+export default function Actions({ photo, handleFocus }) {
   const username = useContext(UserContext).username;
+  const docId = photo.docId;
+  const totalLikes = photo.likes.length;
+  const likedPhoto = photo.likes.contains(username);
 
   const [toggleLiked, setToggleLiked] = useState(likedPhoto);
   const [likes, setLikes] = useState(totalLikes);
-  const { firebase, FieldValue } = useContext(FirebaseContext);
 
   const handleToggleLiked = async () => {
     setToggleLiked((toggleLiked) => !toggleLiked);
-
-    await firebase
-      .firestore()
-      .collection("photos")
-      .doc(docId)
-      .update({
-        likes: toggleLiked
-          ? FieldValue.arrayRemove(username)
-          : FieldValue.arrayUnion(username),
-      });
-
+    likePhoto(docId, username, toggleLiked);
     setLikes((likes) => (toggleLiked ? likes - 1 : likes + 1));
   };
 
+  console.log("action bar", photo);
   return (
     <>
       <div className="flex justify-between p-4 border-gray-primary border-t">
@@ -91,8 +80,6 @@ export default function Actions({
 }
 
 Actions.propTypes = {
-  docId: PropTypes.string.isRequired,
-  totalLikes: PropTypes.number.isRequired,
-  likedPhoto: PropTypes.bool.isRequired,
+  photo: PropTypes.object.isRequired,
   handleFocus: PropTypes.func.isRequired,
 };
