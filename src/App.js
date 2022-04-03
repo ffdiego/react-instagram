@@ -18,10 +18,10 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const Profile = lazy(() => import("./pages/Profile"));
 
 export default function App() {
-  const { user } = useAuthListener();
+  const user = useAuthListener();
 
   return (
-    <UserContext.Provider value={{ user }}>
+    <UserContext.Provider value={user}>
       <Router>
         <Suspense fallback={<p>Loading...</p>}>
           <Routes>

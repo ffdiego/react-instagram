@@ -6,7 +6,7 @@ import Actions from "./actions";
 import Footer from "./footer";
 import Comments from "./comments";
 
-export default function Post({ content }) {
+export default function Post({ content, toggleOverlay }) {
   const commentInput = useRef(null);
 
   const handleFocus = () => commentInput.current.focus();
@@ -16,7 +16,7 @@ export default function Post({ content }) {
 
   return (
     <div className="rounded col-span-4 border bg-white border-gray-primary mb-8">
-      <Header username={content.username} />
+      <Header username={content.author} />
       <Image src={content.imageSrc} caption={content.caption} />
       <Actions
         docId={content.docId}
@@ -24,12 +24,14 @@ export default function Post({ content }) {
         likedPhoto={content.userLikedPhoto}
         handleFocus={handleFocus}
       />
-      <Footer caption={content.caption} username={content.username} />
+      <Footer caption={content.caption} author={content.author} />
       <Comments
         docId={content.docId}
         comments={content.comments}
         posted={content.dateCreated}
         commentInput={commentInput}
+        photo={content}
+        toggleOverlay={toggleOverlay}
       />
     </div>
   );
@@ -37,7 +39,7 @@ export default function Post({ content }) {
 
 Post.propTypes = {
   content: PropTypes.shape({
-    username: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
     imageSrc: PropTypes.string.isRequired,
     caption: PropTypes.string.isRequired,
     docId: PropTypes.string.isRequired,

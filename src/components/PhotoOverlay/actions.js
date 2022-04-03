@@ -1,39 +1,29 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
-import FirebaseContext from "../../context/firebase";
+import { likePhoto } from "../../services/firebase";
 import UserContext from "../../context/user";
 
-export default function Actions({
-  docId,
-  totalLikes,
-  likedPhoto,
-  handleFocus,
-}) {
+export default function Actions({ photo, handleFocus }) {
   const username = useContext(UserContext).username;
+  const docId = photo.docId;
 
-  const [toggleLiked, setToggleLiked] = useState(likedPhoto);
-  const [likes, setLikes] = useState(totalLikes);
-  const { firebase, FieldValue } = useContext(FirebaseContext);
+  const [toggleLiked, setToggleLiked] = useState(false);
+  const [likes, setLikes] = useState(0);
 
   const handleToggleLiked = async () => {
     setToggleLiked((toggleLiked) => !toggleLiked);
-
-    await firebase
-      .firestore()
-      .collection("photos")
-      .doc(docId)
-      .update({
-        likes: toggleLiked
-          ? FieldValue.arrayRemove(username)
-          : FieldValue.arrayUnion(username),
-      });
-
+    likePhoto(docId, username, toggleLiked);
     setLikes((likes) => (toggleLiked ? likes - 1 : likes + 1));
   };
 
+  useEffect(() => {
+    setLikes(photo.likes.length);
+    setToggleLiked(photo.likes.includes(username));
+  }, [photo, username]);
+
   return (
     <>
-      <div className="flex justify-between p-4">
+      <div className="flex justify-between p-4 border-gray-primary border-t">
         <div className="flex">
           <svg
             onClick={handleToggleLiked}
@@ -91,8 +81,6 @@ export default function Actions({
 }
 
 Actions.propTypes = {
-  docId: PropTypes.string.isRequired,
-  totalLikes: PropTypes.number.isRequired,
-  likedPhoto: PropTypes.bool.isRequired,
+  photo: PropTypes.object.isRequired,
   handleFocus: PropTypes.func.isRequired,
 };

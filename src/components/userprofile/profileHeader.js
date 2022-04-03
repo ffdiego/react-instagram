@@ -1,66 +1,54 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import Skeleton from "react-loading-skeleton";
-import useUser from "../../hooks/use-user";
-import { isUserFollowingProfile, toggleFollow } from "../../services/firebase";
+import UserContext from "../../context/user";
+import {
+  addFollower,
+  isUserFollowingProfile,
+  toggleFollow,
+} from "../../services/firebase";
 
-export default function ProfileHeader({
-  photosCount,
-  followerCount,
-  setFollowercount,
-  profile: {
-    //this represents the current profile being viewed
-    docId: profileDocId,
-    userId: profileUserId,
-    fullname,
-    following = [],
-    followers = [],
-    username: profileUsername,
-  },
-}) {
-  const { user } = useUser(); //this represents the logged in user
+export default function ProfileHeader({ profile, info, setFollowercount }) {
+  const user = useContext(UserContext); //this represents the logged in user
 
   const [isFollowingProfile, setIsFollowingProfile] = useState(false);
-  const activeBtnFollow = profileUsername && profileUsername !== user.username;
+  const activeBtnFollow =
+    profile.username && profile.username !== user.username;
 
   const handleToggleFollow = async () => {
     setFollowercount({
-      followerCount: isFollowingProfile ? followerCount - 1 : followerCount + 1,
+      followerCount: isFollowingProfile
+        ? profile.followerCount - 1
+        : profile.followerCount + 1,
     });
     setIsFollowingProfile(!isFollowingProfile);
-    await toggleFollow(
-      isFollowingProfile,
-      user.docId,
-      profileDocId,
-      profileUserId,
-      user.userId
-    );
+    await addFollower(user.username, profile.username, isFollowingProfile);
   };
 
   useEffect(() => {
     const isLoggedInUserFollowingProfile = async () => {
       const isFollowing = await isUserFollowingProfile(
         user.username,
-        profileUserId
+        profile.username
       );
       setIsFollowingProfile(isFollowing);
     };
 
-    if (user?.username && profileUserId) isLoggedInUserFollowingProfile();
-  }, [user.username, profileUserId]);
+    if (user?.username && profile.username) isLoggedInUserFollowingProfile();
+  }, [user.username, profile.username]);
 
   return (
-    <div className="grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg">
+    <div className="grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg border-b border-gray-primary pb-4">
       <div className="container flex justify-center">
         <img
           className="w-40 rounded-full flex"
-          alt={`${profileUsername} avatar`}
-          src={`/images/avatars/${profileUsername}.jpg`}
+          alt={`${profile.username} avatar`}
+          src={`/images/avatars/${profile.username}.jpg`}
         />
       </div>
       <div className="flex items-center justify-center flex-col col-span-2">
         <div className="container flex items-center">
-          <p className="text-2xl mr-4">{profileUsername}</p>
+          <p className="text-2xl mr-4">{profile.username}</p>
           {activeBtnFollow && (
             <button
               className={`${
@@ -74,27 +62,28 @@ export default function ProfileHeader({
           )}
         </div>
         <div className="container flex mt-4">
-          {followers === undefined || following === undefined ? (
+          {!info ? (
             <Skeleton />
           ) : (
             <>
               <p className="mr-10">
-                <span className="font-bold">{photosCount}</span>
-                {photosCount !== 1 ? " photos" : " photo"}
+                <span className="font-bold">{info.photos.length}</span>
+                {info.photosCount !== 1 ? " photos" : " photo"}
               </p>
               <p className="mr-10">
-                <span className="font-bold">{followerCount}</span>
-                {followers !== 1 ? " followers" : " follower"}
+                <span className="font-bold">{info.followerCount}</span>
+                {info.followerCount !== 1 ? " followers" : " follower"}
               </p>
               <p className="mr-10">
-                <span className="font-bold">{following.length}</span> following
+                <span className="font-bold">{info.followingCount}</span>{" "}
+                following
               </p>
             </>
           )}
         </div>
         <div className="container mt-4">
           <p className="font-medium">
-            {!fullname ? <Skeleton width={300} /> : fullname}
+            {!profile.fullname ? <Skeleton width={300} /> : profile.fullname}
           </p>
         </div>
       </div>
@@ -103,8 +92,9 @@ export default function ProfileHeader({
 }
 
 ProfileHeader.propTypes = {
-  photosCount: PropTypes.number.isRequired,
-  followerCount: PropTypes.number.isRequired,
+  photosCount: PropTypes.number,
+  followerCount: PropTypes.number,
+  followingCount: PropTypes.number,
   setFollowercount: PropTypes.func.isRequired,
   profile: PropTypes.shape({
     docId: PropTypes.string,
@@ -113,5 +103,5 @@ ProfileHeader.propTypes = {
     username: PropTypes.string,
     following: PropTypes.array,
     followers: PropTypes.array,
-  }).isRequired,
+  }),
 };

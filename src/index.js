@@ -8,7 +8,9 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 ReactDOM.render(
   <FirebaseContext.Provider value={{ firebase, FieldValue }}>
-    <App />
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
   </FirebaseContext.Provider>,
   document.getElementById("root")
 );

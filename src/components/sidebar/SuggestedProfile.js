@@ -1,23 +1,14 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  updateLoggedInUserFollowing,
-  updateFollowedUserFollowers,
-} from "../../services/firebase";
+import { addFollower } from "../../services/firebase";
 
-export default function SuggestedProfile({
-  profileDocId,
-  username,
-  profileId,
-  userId,
-  loggedInUserDocId,
-}) {
+export default function SuggestedProfile({ username, profile }) {
   const [followed, setFollowed] = useState(false);
   async function HandleFollowUser() {
     setFollowed(true);
-    await updateLoggedInUserFollowing(loggedInUserDocId, profileId, false);
-    await updateFollowedUserFollowers(profileDocId, userId, false);
+    console.log(username, "agora segue", profile.username);
+    await addFollower(username, profile.username);
   }
 
   return !followed ? (
@@ -25,11 +16,11 @@ export default function SuggestedProfile({
       <div className="flex items-center justify-between">
         <img
           className="rounded-full w-8 flex mr-3"
-          src={`/images/avatars/${username}.jpg`}
-          alt={`${username} avatar`}
+          src={`/images/avatars/${profile.username}.jpg`}
+          alt={`${profile.username} avatar`}
         />
-        <Link to={`/p/${username}`}>
-          <p className="font-bold text-sm">{username}</p>
+        <Link to={`/${profile.username}`}>
+          <p className="font-bold text-sm">{profile.username}</p>
         </Link>
       </div>
       <button
@@ -44,9 +35,6 @@ export default function SuggestedProfile({
 }
 
 SuggestedProfile.propTypes = {
-  profileDocId: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
-  profileId: PropTypes.string.isRequired,
-  userId: PropTypes.string.isRequired,
-  loggedInUserDocId: PropTypes.string.isRequired,
+  profile: PropTypes.object.isRequired,
 };
