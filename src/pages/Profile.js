@@ -2,7 +2,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getUser } from "../services/firebase";
 import ProfileSkeleton from "../components/userprofile/profileSkeleton";
-import * as ROUTES from "../constants/routes";
 
 import Header from "../components/header";
 import UserProfile from "../components/userprofile";
