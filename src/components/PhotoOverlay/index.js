@@ -1,15 +1,13 @@
-import { Link } from "react-router-dom";
-import Avatar from "./avatar";
-import Comment from "./comment";
-import Actions from "./actions";
-import AddComment from "./addComment";
+import Photo from "./photo";
+import Info from "./info";
+
+import { useRef } from "react";
 
 export default function PhotoOverlay({
   showOverlay,
   toggleOverlay,
   photo,
   profile,
-  isFollowing,
 }) {
   return (
     <div
@@ -24,47 +22,10 @@ export default function PhotoOverlay({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Photo (Left Side) */}
-        <span className="bg-black-light flex justify-center max-w-2xl">
-          <img
-            className="self-center h-auto max-h-full object-cover w-auto"
-            src={photo?.imageSrc}
-          />
-        </span>
+        <Photo photo={photo} />
 
-        {/* Information (Right Side) */}
-        <span className="flex flex-col flex-shrink-0 justify-start flex-grow-0 w-[500px]">
-          {/* Header */}
-          <div className="flex items-center p-4 px-3 border-b border-gray-primary">
-            <Avatar username={profile.username} />
-            <div className="items-center">
-              <Link
-                to={`/${profile.username}`}
-                className="font-bold text-sm mr-1"
-              >
-                {profile.username}
-              </Link>
-              • <span className="font-bold text-blue-medium">Follow</span>
-            </div>
-          </div>
-          <div className="flex-grow overflow-auto max-h-full">
-            <Comment author={profile.username} message={photo?.caption} />
-            {photo &&
-              photo.comments.map((item) => (
-                <Comment
-                  key={item.comment}
-                  author={item.username}
-                  message={item.comment}
-                />
-              ))}
-          </div>
-
-          {photo && (
-            <>
-              <Actions />
-              <AddComment docId={photo.docId} comments={photo.comments} />
-            </>
-          )}
-        </span>
+        {/* Info  (Right Side) */}
+        <Info photo={photo} profile={profile} />
       </div>
     </div>
   );
