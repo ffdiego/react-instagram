@@ -167,6 +167,10 @@ export async function addCommentFB(username, comment, docId) {
     .collection("photos")
     .doc(docId)
     .update({
-      comments: FieldValue.arrayUnion({ username, comment }),
+      comments: FieldValue.arrayUnion({
+        username,
+        comment,
+        created: Date.now(),
+      }),
     });
 }
