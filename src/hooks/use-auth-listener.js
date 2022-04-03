@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from "react";
 import FirebaseContext from "../context/firebase";
-import UserContext from "../context/user";
 import { getFollowing, getUser } from "../services/firebase";
 
 export default function useAuthListener() {

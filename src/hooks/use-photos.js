@@ -1,6 +1,4 @@
-import { getTime } from "date-fns";
 import { useContext, useEffect, useState } from "react";
-import user from "../components/sidebar/user";
 import UserContext from "../context/user";
 import { getPhotos, getUser } from "../services/firebase";
 
