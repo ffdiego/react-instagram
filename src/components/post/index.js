@@ -6,7 +6,7 @@ import Actions from "./actions";
 import Footer from "./footer";
 import Comments from "./comments";
 
-export default function Post({ content }) {
+export default function Post({ content, toggleOverlay }) {
   const commentInput = useRef(null);
 
   const handleFocus = () => commentInput.current.focus();
@@ -30,6 +30,8 @@ export default function Post({ content }) {
         comments={content.comments}
         posted={content.dateCreated}
         commentInput={commentInput}
+        photo={content}
+        toggleOverlay={toggleOverlay}
       />
     </div>
   );
