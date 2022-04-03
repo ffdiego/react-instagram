@@ -3,9 +3,24 @@ import { Link } from "react-router-dom";
 import Avatar from "./avatar";
 import Comment from "./comment";
 import Actions from "./actions";
-import AddComment from "./addComment";
+import AddComment from "../post/addComment";
+import { useEffect, useRef, useState } from "react";
 
 export default function Info({ photo, profile }) {
+  const commentInput = useRef(null);
+  const commentListView = useRef(null);
+  const [comments, setComments] = useState(photo.comments);
+
+  const handleFocus = () => commentInput.current.focus();
+
+  useEffect(() => {
+    commentListView?.current?.scrollIntoView({ behavior: "smooth" });
+  }, [comments]);
+
+  useEffect(() => {
+    setComments(photo.comments);
+  }, [photo]);
+
   return (
     <span className="flex flex-col flex-shrink-0 justify-start flex-grow-0 w-[500px]">
       {/* Header */}
@@ -20,14 +35,14 @@ export default function Info({ photo, profile }) {
       </div>
       <div className="flex-grow overflow-auto max-h-full">
         <Comment author={profile.username} message={photo?.caption} />
-        {photo &&
-          photo.comments.map((item) => (
-            <Comment
-              key={item.comment}
-              author={item.username}
-              message={item.comment}
-            />
-          ))}
+        {comments.map((item) => (
+          <Comment
+            key={item.created}
+            author={item.username}
+            message={item.comment}
+            commentListView={commentListView}
+          />
+        ))}
       </div>
 
       {photo && (
@@ -35,7 +50,8 @@ export default function Info({ photo, profile }) {
           <Actions photo={photo} handleFocus={handleFocus} />
           <AddComment
             docId={photo.docId}
-            comments={photo.comments}
+            comments={comments}
+            setComments={setComments}
             commentInput={commentInput}
           />
         </>

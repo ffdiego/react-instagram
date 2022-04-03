@@ -1,8 +1,6 @@
 import Photo from "./photo";
 import Info from "./info";
 
-import { useRef } from "react";
-
 export default function PhotoOverlay({
   showOverlay,
   toggleOverlay,
@@ -16,16 +14,16 @@ export default function PhotoOverlay({
       }`}
       onClick={toggleOverlay}
     >
-      {/* White Frame */}
       <div
         className="bg-white [max-height:90%] mx-auto drop-shadow-2xl rounded-r-lg flex"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Photo (Left Side) */}
-        <Photo photo={photo} />
-
-        {/* Info  (Right Side) */}
-        <Info photo={photo} profile={profile} />
+        {photo && profile && (
+          <>
+            <Photo photo={photo} />
+            <Info photo={photo} profile={profile} />
+          </>
+        )}
       </div>
     </div>
   );

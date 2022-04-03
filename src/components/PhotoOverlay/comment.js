@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom";
 import Avatar from "./avatar";
 
-export default function Comment({ author, message, posted }) {
+export default function Comment({ author, message, posted, commentListView }) {
   return (
-    <div className="px-3 pt-1 pb-4 mt-1 mb-3">
+    <div className="px-3 pt-1 pb-4 mt-1 mb-3" ref={commentListView}>
       <div className="flex flex-initial">
         <Avatar username={author} />
         <p className="align-top">

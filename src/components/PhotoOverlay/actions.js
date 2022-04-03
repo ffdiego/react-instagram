@@ -1,17 +1,14 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 import { likePhoto } from "../../services/firebase";
-import FirebaseContext from "../../context/firebase";
 import UserContext from "../../context/user";
 
 export default function Actions({ photo, handleFocus }) {
   const username = useContext(UserContext).username;
   const docId = photo.docId;
-  const totalLikes = photo.likes.length;
-  const likedPhoto = photo.likes.contains(username);
 
-  const [toggleLiked, setToggleLiked] = useState(likedPhoto);
-  const [likes, setLikes] = useState(totalLikes);
+  const [toggleLiked, setToggleLiked] = useState(false);
+  const [likes, setLikes] = useState(0);
 
   const handleToggleLiked = async () => {
     setToggleLiked((toggleLiked) => !toggleLiked);
@@ -19,7 +16,11 @@ export default function Actions({ photo, handleFocus }) {
     setLikes((likes) => (toggleLiked ? likes - 1 : likes + 1));
   };
 
-  console.log("action bar", photo);
+  useEffect(() => {
+    setLikes(photo.likes.length);
+    setToggleLiked(photo.likes.includes(username));
+  }, [photo, username]);
+
   return (
     <>
       <div className="flex justify-between p-4 border-gray-primary border-t">
