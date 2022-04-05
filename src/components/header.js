@@ -1,16 +1,23 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import FirebaseContext from "../context/firebase";
 import UserContext from "../context/user";
 import * as ROUTES from "../constants/routes";
 
-import { HomeIcon, SignOutIcon } from "./icons";
+import { HomeIcon, SignOutIcon, AddIcon } from "./icons";
+import NewPhoto from "./newPhoto";
 
 export default function Header() {
   const navigate = useNavigate();
   const { firebase } = useContext(FirebaseContext);
   const user = useContext(UserContext);
   const username = user.username;
+
+  const [showOverlay, setShowOverlay] = useState(false);
+
+  function toggleOverlay() {
+    setShowOverlay(!showOverlay);
+  }
 
   function SignOut() {
     firebase.auth().signOut();
@@ -37,6 +44,11 @@ export default function Header() {
             {user ? (
               <>
                 {/* Caso usuário autenticado */}
+                <AddIcon onClick={toggleOverlay} />
+                <NewPhoto
+                  showOverlay={showOverlay}
+                  toggleOverlay={toggleOverlay}
+                />
                 <Link
                   type="button"
                   to={ROUTES.DASHBOARD}
@@ -55,6 +67,7 @@ export default function Header() {
                 >
                   <SignOutIcon />
                 </button>
+
                 <div className="flex items-center cursor-pointer">
                   <Link to={`/${username}`}>
                     <img
