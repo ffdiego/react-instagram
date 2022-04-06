@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import FirebaseContext from "../context/firebase";
-import { getFollowing, getUser } from "../services/firebase";
+import { getUser } from "../services/firebase";
 
 export default function useAuthListener() {
   //formated object thats returned
@@ -33,6 +33,9 @@ export default function useAuthListener() {
         lastLogin: user?.metadata?.lastLoginAt,
         createdAt: user?.metadata?.createdAt,
       });
+    } else {
+      setMoreinfo(null);
+      setFormattedUser(null);
     }
   }, [user]);
 

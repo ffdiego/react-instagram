@@ -22,7 +22,6 @@ export default function Header() {
   function SignOut() {
     firebase.auth().signOut();
     navigate(ROUTES.LOGIN);
-    user = null;
   }
 
   return (
