@@ -50,6 +50,7 @@ export default function Login({ user }) {
           {error && <p className="mb-4 text-xs text-red-primary">{error}</p>}
           <form onSubmit={handleLogin} method="POST">
             <input
+              autoComplete="username"
               aria-label="Enter your email address"
               type="text"
               placeholder="Email address"
@@ -58,6 +59,7 @@ export default function Login({ user }) {
               value={email}
             />
             <input
+              autoComplete="current-password"
               aria-label="Enter your password"
               type="password"
               placeholder="Password"
