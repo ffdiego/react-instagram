@@ -3,8 +3,12 @@ import { useState } from "react";
 import FileInputScreen from "./fileInputScreen";
 
 export default function NewPhoto({ showOverlay, toggleOverlay }) {
-  const [leftButton, setLeftButton] = useState(null);
-  const [rightButton, setRightButton] = useState(null);
+  const testbutton = (
+    <button className="bg-blue-medium h-full">Hello tehere!</button>
+  );
+
+  const [leftButton, setLeftButton] = useState(testbutton);
+  const [rightButton, setRightButton] = useState(testbutton);
   const [title, setTitle] = useState("Create a new photo");
 
   return (
@@ -18,10 +22,10 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
         className="bg-white [height:75vh] [min-height:300px] aspect-square mx-auto drop-shadow-2xl rounded-xl flex flex-col"
         onMouseDown={(e) => e.stopPropagation()}
       >
-        <header className="flex justify-between w-full h-12 py-2 px-4 border-gray-primary border-b text-lg font-semibold">
+        <header className="flex justify-between items-stretch w-full h-12 border-gray-primary border-b text-lg font-semibold overflow-clip">
           <div>{leftButton}</div>
-          <div>{title}</div>
-          <div>{rightButton}</div>
+          <div className="self-center">{title}</div>
+          <div className="inline-block">{rightButton}</div>
         </header>
         <div className="h-full flex flex-col items-center justify-center overflow-hidden">
           <FileInputScreen />
