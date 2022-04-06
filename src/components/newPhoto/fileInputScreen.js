@@ -5,15 +5,12 @@ import { useState } from "react";
 export default function FileInputScreen() {
   function fileSelectedHandler(e) {
     const uploadTask = uploadFile(e.target.files[0]);
-    console.log(
-      "🚀 ~ file: fileInputScreen.js ~ line 8 ~ fileSelectedHandler ~ uploadTask",
-      uploadTask
-    );
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress = Math.floor(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
         console.log("Upload is " + progress + "% done");
         setUploadProgress(progress);
       },
@@ -39,14 +36,16 @@ export default function FileInputScreen() {
   return (
     <>
       <PhotosUploadIcon />
-      <p className="mt-5">{uploadProgress}%</p>
-      <progress value={uploadProgress} max={100}></progress>
       <p className="mt-5 mb-10 text-2xl font-thin">Insert your photos here</p>
       <button
-        className="bg-transparent hover:bg-blue-medium text-blue-medium font-semibold hover:text-white py-2 px-4 border border-blue-medium hover:border-transparent rounded transition-all duration-300"
+        className="bg-transparent  font-semibold py-2 px-4 border rounded transition-all duration-300
+        border-blue-medium text-blue-medium
+        hover:bg-blue-medium hover:text-white "
         onClick={filePicker}
       >
-        Choose a photo
+        {uploadProgress > 0 && uploadProgress < 100
+          ? `Uploading ${uploadProgress}%`
+          : "Choose a photo"}
       </button>
     </>
   );
