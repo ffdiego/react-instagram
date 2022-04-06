@@ -14,3 +14,24 @@ export function getFile(setImg) {
     setImg(url);
   });
 }
+
+/* 
+const uploadTask = uploadFile(e.target.files[0]);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.floor(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        console.log("Upload is " + progress + "% done");
+        setUploadProgress(progress);
+      },
+      (error) => {
+        console.log("something went wrong with the upload");
+      },
+      () => {
+        console.log("upload finished sucesfully");
+        setPhotoUploaded(true);
+      }
+    );
+*/
