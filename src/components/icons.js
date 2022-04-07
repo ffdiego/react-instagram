@@ -167,3 +167,33 @@ export function PhotosUploadIcon() {
     </svg>
   );
 }
+
+export function ArrowForwardIcon() {
+  return <ArrowBackwardIcon className="transform rotate-180" />;
+}
+
+export function ArrowBackwardIcon({ className = "" }) {
+  return (
+    <svg className={"w-8 h-8 " + className} role="img" viewBox="0 0 24 24">
+      <line
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1"
+        x1="2.909"
+        x2="22.001"
+        y1="12.004"
+        y2="12.004"
+      ></line>
+      <polyline
+        fill="none"
+        points="9.276 4.726 2.001 12.004 9.276 19.274"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1"
+      ></polyline>
+    </svg>
+  );
+}

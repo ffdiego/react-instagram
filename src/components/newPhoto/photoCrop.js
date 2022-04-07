@@ -1,23 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
 
-export default function AvatarCrop({ photoUploaded }) {
+export default function PhotoCrop({ photo, setCrop }) {
   const [canvasSize, setCanvasSize] = useState({
-    width: undefined,
-    height: undefined,
+    width: 0,
+    height: 0,
   });
 
-  function updateImageCrop(e) {
-    console.log(e);
+  const editorRef = useRef(null);
+
+  function updateImageCrop() {
+    const croppedImage = editorRef.current.getImage();
+    setCrop(croppedImage);
   }
 
   useEffect(() => {
+    const canvas = document.getElementById("canvas");
     function handleResize() {
-      const canvas = document.getElementById("canvas");
-      console.log(canvas.offsetHeight, canvas.offsetWidth);
       setCanvasSize({
-        height: canvas.offsetHeight,
-        width: canvas.offsetWidth,
+        height: canvas.clientHeight,
+        width: canvas.clientWidth,
       });
     }
     window.addEventListener("resize", handleResize);
@@ -28,14 +30,15 @@ export default function AvatarCrop({ photoUploaded }) {
   return (
     <div id="canvas" className="h-full w-full">
       <AvatarEditor
-        className="rounded-b-xl"
-        image={photoUploaded}
+        ref={editorRef}
+        image={photo}
         border={0}
         borderRadius={0}
         height={canvasSize.height}
         width={canvasSize.width}
+        onImageReady={updateImageCrop}
         onPositionChange={updateImageCrop}
-        style={{ height: "100%", width: "100%" }}
+        style={{ height: canvasSize.height, width: canvasSize.width }}
       />
     </div>
   );

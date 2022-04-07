@@ -2,16 +2,12 @@ import { PhotosUploadIcon } from "../icons";
 import { uploadFile } from "../../services/firestore";
 import { useState, useEffect } from "react";
 
-import AvatarCrop from "./avatarCrop";
+import PhotoCrop from "./photoCrop";
 
-export default function FileInputScreen() {
+export default function FileInputScreen({ photo, setPhoto, setCrop }) {
   function fileSelectedHandler(e) {
-    setPhotoUploaded(e.target.files[0]);
+    setPhoto(e.target.files[0]);
   }
-
-  const [uploadProgress, setUploadProgress] = useState(0);
-
-  const [photoUploaded, setPhotoUploaded] = useState(null);
 
   function filePicker() {
     let input = document.createElement("input");
@@ -23,13 +19,13 @@ export default function FileInputScreen() {
 
   return (
     <>
-      {photoUploaded ? (
-        <AvatarCrop photoUploaded={photoUploaded} />
+      {photo ? (
+        <PhotoCrop photo={photo} setCrop={setCrop} />
       ) : (
         <>
           <PhotosUploadIcon />
           <p className="mt-5 mb-10 text-2xl font-thin">
-            Insert your photos here
+            Insert your photo here
           </p>
           <button
             className="bg-transparent  font-semibold py-2 px-4 border rounded transition-all duration-300
@@ -37,9 +33,7 @@ export default function FileInputScreen() {
              hover:bg-blue-medium hover:text-white "
             onClick={filePicker}
           >
-            {uploadProgress > 0 && uploadProgress < 100
-              ? `Uploading ${uploadProgress}%`
-              : "Choose a photo"}
+            Choose a photo
           </button>
         </>
       )}
