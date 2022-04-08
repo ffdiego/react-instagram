@@ -10,32 +10,16 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
 
   function clearPhotoAndOverlay() {
     setPhoto(null);
+    setCrop(null);
     toggleOverlay();
   }
 
   function handleNext() {
-    function download(filename, text) {
-      var element = document.createElement("a");
-      element.setAttribute(
-        "href",
-        "data:text/plain;charset=utf-8," + encodeURIComponent(text)
-      );
-      element.setAttribute("download", filename);
-
-      element.style.display = "none";
-      document.body.appendChild(element);
-
-      element.click();
-
-      document.body.removeChild(element);
-    }
-
     if (crop) {
-      console.log(crop);
-      fetch(crop).then((res) => console.log("res", res));
-      crop.toDataURL("image/jpeg", 0.9).then((dataUrl) => {
-        download("photo.jpg", dataUrl);
-      });
+      const imgjpg = crop.toDataURL("image/jpeg", 0.92);
+
+      var newTab = window.open();
+      newTab.document.body.innerHTML = "<img src=" + imgjpg + " >";
     }
   }
 
