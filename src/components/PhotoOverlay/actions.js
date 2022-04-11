@@ -31,7 +31,7 @@ export default function Actions({ photo, handleFocus }) {
           <CommentIcon onClick={handleFocus} />
         </div>
       </div>
-      <div className="p-4 py-0">
+      <div className="p-4 py-0 pb-2">
         <p className="font-bold">
           {likes === 1 ? `${likes} like` : `${likes} likes`}
         </p>

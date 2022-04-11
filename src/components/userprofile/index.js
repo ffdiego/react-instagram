@@ -38,7 +38,7 @@ export default function UserProfile({ profile }) {
   }, [profile.username]);
 
   return (
-    <div className={showOverlay ? "overflow-hidden [max-height:80vh]" : ""}>
+    <div>
       <ProfileHeader
         profile={profile}
         info={profileInfo}

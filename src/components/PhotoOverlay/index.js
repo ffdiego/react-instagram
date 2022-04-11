@@ -1,5 +1,6 @@
 import Photo from "./photo";
 import Info from "./info";
+import { useEffect } from "react";
 
 export default function PhotoOverlay({
   showOverlay,
@@ -7,6 +8,12 @@ export default function PhotoOverlay({
   photo,
   profile,
 }) {
+  useEffect(() => {
+    if (showOverlay) {
+      document.body.style.overflow = "hidden";
+    } else document.body.style.overflow = "unset";
+  }, [showOverlay]);
+
   return (
     <div
       className={`bg-gray-overlay h-screen w-screen top-0 left-0 fixed px-20 flex items-center z-50 ${

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import FileInputScreen from "./fileInputScreen";
 import { ArrowBackwardIcon } from "../icons";
@@ -7,6 +7,12 @@ import { clear } from "@testing-library/user-event/dist/clear";
 export default function NewPhoto({ showOverlay, toggleOverlay }) {
   const [photo, setPhoto] = useState(null);
   const [crop, setCrop] = useState(null);
+
+  useEffect(() => {
+    if (showOverlay) {
+      document.body.style.overflow = "hidden";
+    } else document.body.style.overflow = "unset";
+  }, [showOverlay]);
 
   function clearPhotoAndOverlay() {
     setPhoto(null);
