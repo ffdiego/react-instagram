@@ -3,32 +3,36 @@ import AvatarEditor from "react-avatar-editor";
 
 export default function PhotoCrop({ photo, setCrop }) {
   const [canvasSize, setCanvasSize] = useState({
-    width: 0,
-    height: 0,
+    width: 500,
+    height: 500,
   });
 
+  const [zoom, setZoom] = useState(1);
+
   const editorRef = useRef(null);
+
+  function handleScroll(e) {
+    const zoomPerScroll = 0.1;
+    let scrollUp = e.deltaY > 0 ? 1 : -1;
+    let newZoom = zoom - scrollUp * zoomPerScroll;
+    if (newZoom < 1) newZoom = 1;
+    else if (newZoom > 2) newZoom = 2;
+    setZoom(newZoom);
+  }
+
+  function imageReady() {
+    const croppedImage = editorRef.current.getImage();
+    setCanvasSize({ height: croppedImage.height, width: croppedImage.width });
+    setCrop(croppedImage);
+  }
 
   function updateImageCrop() {
     const croppedImage = editorRef.current.getImage();
     setCrop(croppedImage);
   }
 
-  useEffect(() => {
-    const canvas = document.getElementById("canvas");
-    function handleResize() {
-      setCanvasSize({
-        height: canvas.clientHeight,
-        width: canvas.clientWidth,
-      });
-    }
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   return (
-    <div id="canvas" className="h-full w-full">
+    <div id="canvas" className="h-full w-full" onWheel={handleScroll}>
       <AvatarEditor
         ref={editorRef}
         image={photo}
@@ -36,9 +40,10 @@ export default function PhotoCrop({ photo, setCrop }) {
         borderRadius={0}
         height={canvasSize.height}
         width={canvasSize.width}
-        onImageReady={updateImageCrop}
-        onPositionChange={updateImageCrop}
-        style={{ height: canvasSize.height, width: canvasSize.width }}
+        scale={zoom}
+        onImageReady={imageReady}
+        onMouseUp={updateImageCrop}
+        style={{ height: "100%", width: "100%" }}
       />
     </div>
   );
