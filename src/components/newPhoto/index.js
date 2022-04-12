@@ -32,7 +32,7 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
   return (
     <div
       className={`bg-gray-overlay h-screen w-screen top-0 left-0 fixed px-20 flex items-center z-50 ${
-        showOverlay ? "hidden" : ""
+        showOverlay ? "" : "hidden"
       }`}
       onMouseDown={clearPhotoAndOverlay}
     >
