@@ -11,7 +11,7 @@ export default function PhotoOverlay({
   useEffect(() => {
     if (showOverlay) {
       document.body.style.overflow = "hidden";
-    } else document.body.style.overflow = "unset";
+    } else document.body.style.overflow = "";
   }, [showOverlay]);
 
   return (

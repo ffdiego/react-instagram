@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 
 import FileInputScreen from "./fileInputScreen";
 import { ArrowBackwardIcon } from "../icons";
-import { clear } from "@testing-library/user-event/dist/clear";
 
 export default function NewPhoto({ showOverlay, toggleOverlay }) {
+  const [title, setTitle] = useState("Create a new post");
   const [photo, setPhoto] = useState(null);
   const [crop, setCrop] = useState(null);
+  const [description, setDescription] = useState(null);
 
   useEffect(() => {
-    if (showOverlay) {
-      document.body.style.overflow = "hidden";
-    } else document.body.style.overflow = "unset";
+    if (showOverlay) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
   }, [showOverlay]);
 
   function clearPhotoAndOverlay() {
@@ -29,12 +29,10 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
     }
   }
 
-  const [title, setTitle] = useState("Create a new post");
-
   return (
     <div
       className={`bg-gray-overlay h-screen w-screen top-0 left-0 fixed px-20 flex items-center z-50 ${
-        showOverlay || "hidden"
+        showOverlay ? "hidden" : ""
       }`}
       onMouseDown={clearPhotoAndOverlay}
     >
