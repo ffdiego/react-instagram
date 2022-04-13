@@ -25,7 +25,7 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 z-20 bg-white border-b border-gray-primary mb-8">
+    <header className="fixed top-0 left-0 right-0 h-16 z-20 bg-white border-b border-gray-primary mb-8 pl-[calc(100vw-100%)]">
       <div className="container mx-auto max-w-screen-lg h-full">
         <div className="flex justify-between h-full">
           <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
