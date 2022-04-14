@@ -29,7 +29,7 @@ export default function EmojiPicker({ text, setText }) {
       {show && (
         <div
           onMouseLeave={() => setShow(false)}
-          className="absolute top-0 left-0 bg-white rounded-xl shadow-xl w-48 h-32 grid grid-cols-4 grid-rows-3 align-middle"
+          className="absolute bottom-0 left-0 bg-white rounded-xl shadow-xl w-48 h-32 grid grid-cols-4 grid-rows-3 align-middle"
         >
           {emojis.map((emoji) => (
             <button

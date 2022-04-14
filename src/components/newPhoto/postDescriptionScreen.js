@@ -25,7 +25,7 @@ export default function PostDescriptionScreen({
       <div className="flex items-center [min-width:300px]">
         <img src={photo} className="max-h-full" />
       </div>
-      <div className="h-1/2 [width:40vh] [min-width:250px] border-l border-b border-gray-primary flex flex-col items-start">
+      <div className="h-full [width:40vh] [min-width:250px] border-l border-b border-gray-primary flex flex-col items-start">
         <div className="flex p-4 items-center">
           <img
             className="rounded-full h-8 w-8 flex"
@@ -37,15 +37,18 @@ export default function PostDescriptionScreen({
         <textarea
           autoFocus
           placeholder="Write a caption..."
-          className="h-full w-full px-4 resize-none outline-none text-lg"
+          className="h-1/2 w-full px-4 resize-none outline-none text-lg flex-grow"
           onChange={textHandler}
           value={text}
         />
         <div className="w-full p-2 flex justify-between relative transition-all duration-500">
           <EmojiPicker text={text} setText={setText} />
-
           <p className="text-gray-primary text-sm">{`${text.length}/125`}</p>
         </div>
+        <input
+          className="w-full px-4 py-3 outline-none text-lg border-t border-b border-gray-primary"
+          placeholder="Add a location"
+        />
       </div>
     </div>
   );
