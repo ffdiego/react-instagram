@@ -9,6 +9,7 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
   const [crop, setCrop] = useState(null);
   const [description, setDescription] = useState(null);
   const [step, setStep] = useState(0);
+  const [showExitDialog, setShowExitDialog] = useState(false);
 
   useEffect(() => {
     if (showOverlay) {
@@ -19,14 +20,17 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
   }, [showOverlay]);
 
   function exit() {
-    switch (step) {
-      case 2:
-        setCrop(null);
-      case 1:
-        setPhoto(null);
-      case 0:
-        toggleOverlay();
-        break;
+    toggleOverlay();
+    setPhoto(null);
+    setCrop(null);
+    setDescription(null);
+    setShowExitDialog(false);
+    setStep(0);
+  }
+
+  function handleExit() {
+    if (step > 0) {
+      setShowExitDialog(true);
     }
   }
 
@@ -72,10 +76,11 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
       className={`bg-gray-overlay h-screen w-screen top-0 left-0 fixed px-20 flex items-center z-50 ${
         showOverlay ? "" : "hidden"
       }`}
-      onMouseDown={exit}
+      onMouseDown={handleExit}
     >
       <div
-        className="bg-white [min-width:300px] [min-height:300px] mx-auto drop-shadow-2xl rounded-xl flex flex-col overflow-hidden transition-all"
+        id="new-photo-modal"
+        className="bg-white [min-width:300px] [min-height:300px] mx-auto drop-shadow-2xl rounded-xl flex flex-col overflow-hidden relative"
         onMouseDown={(e) => e.stopPropagation()}
       >
         <header className="flex justify-between items-stretch w-full h-12 border-gray-primary border-b text-lg font-semibold">
@@ -106,6 +111,39 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
         ) : (
           <PostDescriptionScreen photo={crop} setDescription={setDescription} />
         )}
+        {showExitDialog ? (
+          <ExitConfirmationScreen
+            exit={exit}
+            setShowExitDialog={setShowExitDialog}
+          />
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function ExitConfirmationScreen({ exit, setShowExitDialog }) {
+  return (
+    <div className="absolute bg-gray-overlay w-full h-full  flex items-center justify-center">
+      <div className="bg-white w-2/3 mx-auto drop-shadow-2xl rounded-xl flex flex-col overflow-hidden">
+        <div className="flex flex-col items-center justify-center h-10 m-8 mb-4">
+          <p className="text-lg font-semibold">Discard publishing?</p>
+          <p className="text-gray-base">
+            If you leave now, your changes will be lost.
+          </p>
+        </div>
+        <button
+          className="w-full border-t border-b border-gray-primary h-12 p-1 font-bold text-red-primary"
+          onClick={exit}
+        >
+          Discard
+        </button>
+        <button
+          className="w-full h-12 p-1"
+          onClick={() => setShowExitDialog(false)}
+        >
+          Cancel
+        </button>
       </div>
     </div>
   );

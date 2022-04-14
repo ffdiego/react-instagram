@@ -19,7 +19,7 @@ export default function photoCanvas({ photo, setPhoto, setCrop, setStep }) {
   }
 
   return (
-    <div className="[height:60vh] [width:60vh] flex flex-col items-center justify-center">
+    <div className="[height:80vh] [width:80vh] flex flex-col items-center justify-center">
       {photo ? (
         <PhotoCrop photo={photo} setCrop={setCrop} />
       ) : (
