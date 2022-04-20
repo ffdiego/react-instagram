@@ -1,10 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getUser } from "../services/firebase";
-import ProfileSkeleton from "../components/userprofile/profileSkeleton";
+import ProfileSkeleton from "../components/UserProfile/profileSkeleton";
 
-import Header from "../components/header";
-import UserProfile from "../components/userprofile";
+import Header from "../components/Header";
+import UserProfile from "../components/UserProfile";
 
 export default function Profile() {
   const { username } = useParams();

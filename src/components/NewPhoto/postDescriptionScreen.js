@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/user";
-import EmojiPicker from "../emojiPicker";
+import EmojiPicker from "../EmojiPicker";
 
 export default function PostDescriptionScreen({
   photo,

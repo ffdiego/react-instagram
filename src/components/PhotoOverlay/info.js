@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Avatar from "./avatar";
 import Comment from "./comment";
 import Actions from "./actions";
-import AddComment from "../post/addComment";
+import AddComment from "../Post/addComment";
 import { useEffect, useRef, useState } from "react";
 
 export default function Info({ photo, profile }) {

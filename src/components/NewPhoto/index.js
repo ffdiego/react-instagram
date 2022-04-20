@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import UserContext from "../../context/user";
 
 import PhotoCanvas from "./photoCanvas";
-import { ArrowBackwardIcon } from "../icons";
+import { ArrowBackwardIcon } from "../Icons";
 import PostDescriptionScreen from "./postDescriptionScreen";
 import { uploadPhoto } from "../../services/firestore";
 

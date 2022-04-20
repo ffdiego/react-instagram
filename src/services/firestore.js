@@ -1,10 +1,5 @@
 import { storage } from "../lib/firebase";
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  uploadString,
-} from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { addPhoto } from "./firebase";
 
 async function getFile(fileRef) {

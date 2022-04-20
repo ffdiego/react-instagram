@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { likePhoto } from "../../services/firebase";
 import UserContext from "../../context/user";
 
-import { LikeIcon, CommentIcon } from "../icons";
+import { LikeIcon, CommentIcon } from "../Icons";
 
 export default function Actions({ photo, handleFocus }) {
   const username = useContext(UserContext).username;

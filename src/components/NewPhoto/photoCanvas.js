@@ -1,4 +1,4 @@
-import { PhotosUploadIcon } from "../icons";
+import { PhotosUploadIcon } from "../Icons";
 import { uploadFile } from "../../services/firestore";
 import { useEffect, useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";

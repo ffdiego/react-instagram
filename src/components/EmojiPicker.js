@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { EmojiIcon } from "./icons";
+import { EmojiIcon } from "./Icons";
 
 export default function EmojiPicker({ text, setText }) {
   const [show, setShow] = useState(false);

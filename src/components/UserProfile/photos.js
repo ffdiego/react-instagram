@@ -1,7 +1,7 @@
 import { useState, useReducer, useEffect } from "react";
 import PropTypes from "prop-types";
 import Skeleton from "react-loading-skeleton";
-import { LikeIconFull, CommentIconFull } from "../icons";
+import { LikeIconFull, CommentIconFull } from "../Icons";
 
 export default function Photos({ photos, toggleOverlay }) {
   return (
@@ -9,13 +9,15 @@ export default function Photos({ photos, toggleOverlay }) {
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 mt-4 mb-12">
         {!photos ? (
           <>
-            <Skeleton count={12} width={320} height={400} />
+            <Skeleton width={320} height={320} />
+            <Skeleton width={320} height={320} />
+            <Skeleton width={320} height={320} />
           </>
         ) : photos.length > 0 ? (
           photos.map((photo) => (
             <div
               key={photo.docId}
-              className="relative group mb-2"
+              className="relative group"
               onClick={(e) => {
                 toggleOverlay(e, photo);
               }}

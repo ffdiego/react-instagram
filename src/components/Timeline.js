@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import usePhotos from "../hooks/use-photos";
-import Post from "./post";
+import Post from "./Post";
 import PhotoOverlay from "./PhotoOverlay";
 
 export default function Timeline() {

@@ -4,8 +4,8 @@ import FirebaseContext from "../context/firebase";
 import UserContext from "../context/user";
 import * as ROUTES from "../constants/routes";
 
-import { HomeIcon, SignOutIcon, AddIcon } from "./icons";
-import NewPhoto from "./newPhoto";
+import { HomeIcon, SignOutIcon, AddIcon } from "./Icons";
+import NewPhoto from "./NewPhoto";
 
 export default function Header() {
   const navigate = useNavigate();
