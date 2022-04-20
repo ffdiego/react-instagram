@@ -41,6 +41,7 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
     if (step > 0 && !uploading) {
       setShowExitDialog(true);
     }
+    if (step === 0) toggleOverlay();
   }
 
   function handleBack() {

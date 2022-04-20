@@ -6,7 +6,6 @@ import AvatarEditor from "react-avatar-editor";
 export default function photoCanvas({ photo, setPhoto, setCrop, setStep }) {
   function fileSelectedHandler(e) {
     setPhoto(e.target.files[0]);
-    console.log("setei o state pra 1");
     setStep(1);
   }
 
@@ -59,6 +58,7 @@ function PhotoCrop({ photo, setCrop }) {
     if (newZoom < 1) newZoom = 1;
     else if (newZoom > 2) newZoom = 2;
     setZoom(newZoom);
+    updateImageCrop();
   }
 
   function imageReady() {
