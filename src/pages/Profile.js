@@ -22,7 +22,7 @@ export default function Profile() {
   }, [username, navigate]);
 
   return (
-    <div className="bg-gray-background">
+    <div className="bg-gray-background pl-[calc(100vw-100%)]">
       <Header />
       <div className="mx-auto max-w-screen-lg mt-20">
         {loading ? (

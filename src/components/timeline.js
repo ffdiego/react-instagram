@@ -15,11 +15,6 @@ export default function Timeline() {
   const [activePhoto, setActivePhoto] = useState(null);
 
   function toggleOverlay(e, photo) {
-    console.log(
-      "🚀 ~ file: timeline.js ~ line 18 ~ toggleOverlay ~ photo",
-      photo
-    );
-
     if (photo) setActivePhoto(photo);
     setShowOverlay(!showOverlay);
   }
