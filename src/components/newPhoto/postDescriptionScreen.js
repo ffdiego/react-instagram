@@ -4,7 +4,7 @@ import EmojiPicker from "../emojiPicker";
 
 export default function PostDescriptionScreen({
   photo,
-  description,
+  setPlace,
   setDescription,
 }) {
   const user = useContext(UserContext);
@@ -12,7 +12,10 @@ export default function PostDescriptionScreen({
   const [text, setText] = useState("");
 
   useEffect(() => {
-    if (text.length > 125) setText(text.slice(0, 125));
+    if (text.length > 125) {
+      setText(text.slice(0, 125));
+    }
+    setDescription(text);
   }, [text]);
 
   function textHandler(e) {
@@ -47,6 +50,8 @@ export default function PostDescriptionScreen({
         </div>
         <input
           className="w-full px-4 py-3 outline-none text-lg border-t border-b border-gray-primary"
+          onChange={(e) => setPlace(e.target.value)}
+          maxLength="20"
           placeholder="Add a location"
         />
       </div>

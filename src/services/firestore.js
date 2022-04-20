@@ -1,18 +1,59 @@
 import { storage } from "../lib/firebase";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  uploadString,
+} from "firebase/storage";
+import { addPhoto } from "./firebase";
 
-export function uploadFile(file) {
-  const fileRef = ref(storage, "avatars/" + file.name);
-  const uploadTask = uploadBytesResumable(fileRef, file);
+async function getFile(fileRef) {
+  const url = await getDownloadURL(fileRef);
+}
 
+//specific functions that calls the two above functions
+export function uploadAvatar(file, user) {
+  const fileRef = ref(storage, "avatars/" + user);
+  const uploadTask = null;
   return uploadTask;
 }
 
-export function getFile(setImg) {
-  const gsReference = ref(storage, "avatars/mech.png");
-  getDownloadURL(gsReference).then((url) => {
-    setImg(url);
+export async function uploadPhoto(base64url_file, user, caption, place) {
+  const now = new Date();
+  const filename =
+    now.getFullYear() +
+    "-" +
+    now.getMonth() +
+    "-" +
+    now.getDate() +
+    "-" +
+    now.getHours() +
+    "h" +
+    now.getMinutes() +
+    "m" +
+    now.getSeconds() +
+    "s";
+
+  const fileRef = ref(storage, `photos/${user}/${filename}.jpg`);
+
+  const uploadTask = uploadBytesResumable(fileRef, base64url_file, {
+    contentType: "image/jpeg",
   });
+
+  uploadTask.then(() => {
+    getDownloadURL(fileRef).then((url) => addPhoto(user, caption, place, url));
+  });
+  return uploadTask;
+}
+
+export async function getAvatar(user) {
+  const fileRef = ref(storage, `avatars/${user}.jpg`);
+  return getFile(fileRef);
+}
+
+export async function getPhoto(user, filename) {
+  const fileRef = ref(storage, `photos/${user}/${filename}.jpg`);
+  return getFile(fileRef);
 }
 
 /* 

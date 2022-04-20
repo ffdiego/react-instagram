@@ -174,3 +174,15 @@ export async function addCommentFB(username, comment, docId) {
       }),
     });
 }
+
+export async function addPhoto(username, caption, place, imageSrc) {
+  return firebase.firestore().collection("photos").add({
+    author: username,
+    caption,
+    place,
+    imageSrc,
+    dateCreated: Date.now(),
+    likes: [],
+    comments: [],
+  });
+}

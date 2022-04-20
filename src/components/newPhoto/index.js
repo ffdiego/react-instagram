@@ -1,15 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import UserContext from "../../context/user";
 
 import PhotoCanvas from "./photoCanvas";
 import { ArrowBackwardIcon } from "../icons";
 import PostDescriptionScreen from "./postDescriptionScreen";
+import { uploadPhoto } from "../../services/firestore";
 
 export default function NewPhoto({ showOverlay, toggleOverlay }) {
+  const user = useContext(UserContext);
+
   const [photo, setPhoto] = useState(null);
   const [crop, setCrop] = useState(null);
-  const [description, setDescription] = useState(null);
+  const [cropBlob, setCropBlob] = useState(null);
+  const [description, setDescription] = useState("");
+  const [place, setPlace] = useState("");
+
   const [step, setStep] = useState(0);
   const [showExitDialog, setShowExitDialog] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (showOverlay) {
@@ -20,16 +28,17 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
   }, [showOverlay]);
 
   function exit() {
+    setStep(0);
     toggleOverlay();
     setPhoto(null);
     setCrop(null);
-    setDescription(null);
+    setDescription("");
+    setPlace("");
     setShowExitDialog(false);
-    setStep(0);
   }
 
   function handleExit() {
-    if (step > 0) {
+    if (step > 0 && !uploading) {
       setShowExitDialog(true);
     }
   }
@@ -58,12 +67,22 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
       case 1:
         if (!crop) return;
         const imgjpg = crop.toDataURL("image/jpeg", 0.92);
+        crop.toBlob((blob) => setCropBlob(blob), "image/jpeg", 0.92);
         setCrop(imgjpg);
-        console.log("crop", crop);
         break;
       case 2:
-        //post the img
-        exit();
+        if (!description) return;
+        setUploading(true);
+        const uploadTask = uploadPhoto(
+          cropBlob,
+          user.username,
+          description,
+          place
+        );
+        uploadTask.then(() => {
+          setUploading(false);
+          exit();
+        });
         break;
       default:
         throw new Error();
@@ -94,7 +113,9 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
             <button
               onClick={handleNext}
               className={`h-full font-bold text-blue-medium ${
-                !photo ? "opacity-40 cursor-default" : null
+                !photo || (step === 2 && !description)
+                  ? "opacity-40 cursor-default"
+                  : null
               }`}
             >
               Next
@@ -109,7 +130,11 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
             setStep={setStep}
           />
         ) : (
-          <PostDescriptionScreen photo={crop} setDescription={setDescription} />
+          <PostDescriptionScreen
+            photo={crop}
+            setPlace={setPlace}
+            setDescription={setDescription}
+          />
         )}
         {showExitDialog ? (
           <ExitConfirmationScreen
@@ -117,6 +142,7 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
             setShowExitDialog={setShowExitDialog}
           />
         ) : null}
+        {uploading ? <UploadingDialog /> : null}
       </div>
     </div>
   );
@@ -124,7 +150,7 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
 
 function ExitConfirmationScreen({ exit, setShowExitDialog }) {
   return (
-    <div className="absolute bg-gray-overlay w-full h-full  flex items-center justify-center">
+    <div className="absolute bg-gray-overlay w-full h-full flex items-center justify-center">
       <div className="bg-white w-2/3 mx-auto drop-shadow-2xl rounded-xl flex flex-col overflow-hidden">
         <div className="flex flex-col items-center justify-center h-10 m-8 mb-4">
           <p className="text-lg font-semibold">Discard publishing?</p>
@@ -144,6 +170,19 @@ function ExitConfirmationScreen({ exit, setShowExitDialog }) {
         >
           Cancel
         </button>
+      </div>
+    </div>
+  );
+}
+
+function UploadingDialog() {
+  return (
+    <div className="absolute bg-gray-overlay w-full h-full flex items-center justify-center">
+      <div className="bg-white w-1/2 mx-auto drop-shadow-2xl rounded-xl flex flex-col overflow-hidden">
+        <div className="flex flex-col items-center justify-center m-8">
+          <p className="text-lg font-semibold">Uploading Photo...</p>
+          <p className="mt-8 text-5xl animate-bounce">📃</p>
+        </div>
       </div>
     </div>
   );
