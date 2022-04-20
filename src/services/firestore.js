@@ -6,11 +6,18 @@ async function getFile(fileRef) {
   const url = await getDownloadURL(fileRef);
 }
 
+export function AvatarURL(user) {
+  const imgurl = `https://firebasestorage.googleapis.com/v0/b/instagram-clone-react-6a2b5.appspot.com/o/avatar%2F${user}.jpg?alt=media`;
+  return imgurl;
+}
+
 //specific functions that calls the two above functions
 export function uploadAvatar(file, user) {
-  const fileRef = ref(storage, "avatars/" + user);
-  const uploadTask = null;
-  return uploadTask;
+  const fileRef = ref(storage, `avatar/${user}.jpg`);
+
+  const uploadTask = uploadBytesResumable(fileRef, file, {
+    contentType: "image/jpeg",
+  });
 }
 
 export async function uploadPhoto(base64url_file, user, caption, place) {

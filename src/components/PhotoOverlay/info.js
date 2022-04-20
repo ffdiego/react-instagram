@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import Avatar from "./avatar";
+import Avatar from "../Avatar";
 import Comment from "./comment";
 import Actions from "./actions";
 import AddComment from "../Post/addComment";
@@ -26,7 +26,7 @@ export default function Info({ photo, profile }) {
       {/* Header */}
       <div className="flex items-center p-4 px-3 border-b border-gray-primary">
         <Avatar username={profile.username} />
-        <div className="items-center">
+        <div className="ml-3 items-center">
           <Link to={`/${profile.username}`} className="font-bold text-sm mr-1">
             {profile.username}
           </Link>

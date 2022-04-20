@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/user";
+import Avatar from "../Avatar";
 import EmojiPicker from "../EmojiPicker";
 
 export default function PostDescriptionScreen({
@@ -30,11 +31,7 @@ export default function PostDescriptionScreen({
       </div>
       <div className="h-full [width:40vh] [min-width:250px] border-l border-b border-gray-primary flex flex-col items-start">
         <div className="flex p-4 items-center">
-          <img
-            className="rounded-full h-8 w-8 flex"
-            src={`/images/avatars/${user.username}.jpg`}
-            alt={`${user.username} profile`}
-          />
+          <Avatar user={user.username} size="8" />
           <p className="ml-3 font-semibold text-lg">{user.username}</p>
         </div>
         <textarea

@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { addFollower } from "../../services/firebase";
+import Avatar from "../Avatar";
 
 export default function SuggestedProfile({ username, profile }) {
   const [followed, setFollowed] = useState(false);
@@ -14,13 +15,9 @@ export default function SuggestedProfile({ username, profile }) {
   return !followed ? (
     <div className="flex flex-row items-center align-items justify-between">
       <div className="flex items-center justify-between">
-        <img
-          className="rounded-full w-8 flex mr-3"
-          src={`/images/avatars/${profile.username}.jpg`}
-          alt={`${profile.username} avatar`}
-        />
-        <Link to={`/${profile.username}`}>
-          <p className="font-bold text-sm">{profile.username}</p>
+        <Avatar user={profile.username} size={8} clickable={false} />
+        <Link className="ml-3 font-bold text-sm" to={`/${profile.username}`}>
+          <p className="">{profile.username}</p>
         </Link>
       </div>
       <button

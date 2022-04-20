@@ -7,6 +7,7 @@ import {
   isUserFollowingProfile,
   toggleFollow,
 } from "../../services/firebase";
+import Avatar from "../Avatar";
 
 export default function ProfileHeader({ profile, info, setFollowercount }) {
   const user = useContext(UserContext); //this represents the logged in user
@@ -51,11 +52,7 @@ export default function ProfileHeader({ profile, info, setFollowercount }) {
           >
             <p className="text-white">Change</p>
           </div>
-          <img
-            className="w-40"
-            alt={`${profile.username} avatar`}
-            src={`/images/avatars/${profile.username}.jpg`}
-          />
+          <Avatar user={profile.username} size={40} clickable={false} />
         </div>
       </div>
       <div className="flex items-center justify-center flex-col col-span-2">

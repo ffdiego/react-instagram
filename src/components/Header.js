@@ -6,6 +6,7 @@ import * as ROUTES from "../constants/routes";
 
 import { HomeIcon, SignOutIcon, AddIcon } from "./Icons";
 import NewPhoto from "./NewPhoto";
+import Avatar from "./Avatar";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -68,13 +69,7 @@ export default function Header() {
                 </button>
 
                 <div className="flex items-center cursor-pointer">
-                  <Link to={`/${username}`}>
-                    <img
-                      className="rounded-full h-8 w-8 flex"
-                      src={`/images/avatars/${username}.jpg`}
-                      alt={`${username} profile`}
-                    />
-                  </Link>
+                  <Avatar user={username} size={8} />
                 </div>
               </>
             ) : (
