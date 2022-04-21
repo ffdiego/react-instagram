@@ -25,7 +25,7 @@ export default function Info({ photo, profile }) {
     <span className="flex flex-col flex-shrink-0 justify-start flex-grow-0 w-[500px]">
       {/* Header */}
       <div className="flex items-center p-4 px-3 border-b border-gray-primary">
-        <Avatar username={profile.username} />
+        <Avatar user={profile.username} />
         <div className="ml-3 items-center">
           <Link to={`/${profile.username}`} className="font-bold text-sm mr-1">
             {profile.username}
