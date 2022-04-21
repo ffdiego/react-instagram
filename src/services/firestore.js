@@ -18,6 +18,7 @@ export function uploadAvatar(file, user) {
   const uploadTask = uploadBytesResumable(fileRef, file, {
     contentType: "image/jpeg",
   });
+  return uploadTask;
 }
 
 export async function uploadPhoto(base64url_file, user, caption, place) {

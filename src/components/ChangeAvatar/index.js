@@ -1,22 +1,25 @@
 import { useEffect, useState, useContext } from "react";
 import UserContext from "../../context/user";
 
-import PhotoCanvas from "./photoCanvas";
+import AvatarCanvas from "./AvatarCanvas";
 import { ArrowBackwardIcon } from "../Icons";
-import PostDescriptionScreen from "./postDescriptionScreen";
-import { uploadPhoto } from "../../services/firestore";
+import Avatar from "../Avatar";
+import { uploadAvatar } from "../../services/firestore";
 
-export default function NewPhoto({ showOverlay, toggleOverlay }) {
+export default function ChangeAvatar({ profile, size }) {
   const user = useContext(UserContext);
+  const profileIsUser = profile.username === user.username;
+  const _size = size || 40;
 
+  function overlayToggle() {
+    if (!profileIsUser) return;
+    setShowOverlay(!showOverlay);
+  }
+
+  const [showOverlay, setShowOverlay] = useState(false);
   const [photo, setPhoto] = useState(null);
   const [crop, setCrop] = useState(null);
   const [cropBlob, setCropBlob] = useState(null);
-  const [description, setDescription] = useState("");
-  const [place, setPlace] = useState("");
-
-  const [step, setStep] = useState(0);
-  const [showExitDialog, setShowExitDialog] = useState(false);
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
@@ -27,124 +30,89 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
     }
   }, [showOverlay]);
 
-  function exit() {
-    setStep(0);
-    toggleOverlay();
-    setPhoto(null);
-    setCrop(null);
-    setDescription("");
-    setPlace("");
-    setShowExitDialog(false);
-  }
-
   function handleExit() {
-    if (step > 0 && !uploading) {
-      setShowExitDialog(true);
-    }
+    setPhoto(null);
+    setShowOverlay(false);
   }
 
   function handleBack() {
-    switch (step) {
-      case 0:
-        toggleOverlay();
-        return;
-      case 1:
-        setPhoto(null);
-        break;
-      case 2:
-        setCrop(null);
-        break;
-      default:
-        throw new Error();
+    if (photo) {
+      setPhoto(null);
+    } else {
+      handleExit();
     }
-    setStep(step - 1);
   }
 
   function handleNext() {
-    switch (step) {
-      case 0:
-        break;
-      case 1:
-        if (!crop) return;
-        const imgjpg = crop.toDataURL("image/jpeg", 0.92);
-        crop.toBlob((blob) => setCropBlob(blob), "image/jpeg", 0.92);
-        setCrop(imgjpg);
-        break;
-      case 2:
-        if (!description) return;
-        setUploading(true);
-        const uploadTask = uploadPhoto(
-          cropBlob,
-          user.username,
-          description,
-          place
-        );
+    if (!photo) return;
+    setUploading(true);
+    crop.toBlob(
+      (blob) => {
+        console.log("blob", blob);
+        const uploadTask = uploadAvatar(blob, user.username);
         uploadTask.then(() => {
           setUploading(false);
-          exit();
+          handleExit();
+          document.location.reload();
         });
-        break;
-      default:
-        throw new Error();
-    }
-    setStep(step + 1);
+      },
+      "image/jpeg",
+      0.92
+    );
   }
 
   return (
-    <div
-      className={`bg-gray-overlay h-screen w-screen top-0 left-0 fixed px-20 flex items-center z-50 ${
-        showOverlay ? "" : "hidden"
-      }`}
-      onMouseDown={handleExit}
-    >
+    <>
       <div
-        id="new-photo-modal"
-        className="bg-white [min-width:300px] [min-height:300px] mx-auto drop-shadow-2xl rounded-xl flex flex-col overflow-hidden relative"
-        onMouseDown={(e) => e.stopPropagation()}
+        className="w-40 rounded-full flex overflow-hidden relative group"
+        onClick={overlayToggle}
       >
-        <header className="flex justify-between items-stretch w-full h-12 border-gray-primary border-b text-lg font-semibold">
-          <div className="ml-4 h-full">
-            <button className="h-full" onClick={handleBack}>
-              <ArrowBackwardIcon />
-            </button>
-          </div>
-          <div className="self-center">Create a new post</div>
-          <div className="mr-4 h-full">
-            <button
-              onClick={handleNext}
-              className={`h-full font-bold text-blue-medium ${
-                !photo || (step === 2 && !description)
-                  ? "opacity-40 cursor-default"
-                  : null
-              }`}
-            >
-              Next
-            </button>
-          </div>
-        </header>
-        {step < 2 ? (
-          <PhotoCanvas
-            photo={photo}
-            setPhoto={setPhoto}
-            setCrop={setCrop}
-            setStep={setStep}
-          />
-        ) : (
-          <PostDescriptionScreen
-            photo={crop}
-            setPlace={setPlace}
-            setDescription={setDescription}
-          />
-        )}
-        {showExitDialog ? (
-          <ExitConfirmationScreen
-            exit={exit}
-            setShowExitDialog={setShowExitDialog}
-          />
-        ) : null}
-        {uploading ? <UploadingDialog /> : null}
+        <div
+          className={`absolute bg-black-faded w-full h-1/4 bottom-0 left-0 z-10 justify-center hidden ${
+            profileIsUser && "group-hover:flex"
+          }`}
+        >
+          <p className="text-white">Change</p>
+        </div>
+        <Avatar user={profile.username} size={_size} clickable={false} />
       </div>
-    </div>
+      {/* OVERLAY HERE */}
+      <div
+        className={`bg-gray-overlay h-screen w-screen top-0 left-0 fixed px-20 flex items-center z-50 ${
+          showOverlay ? "" : "hidden"
+        }`}
+        onMouseDown={handleExit}
+      >
+        <div
+          id="new-avatar-modal"
+          className="bg-white [min-width:300px] [min-height:300px] mx-auto drop-shadow-2xl rounded-xl flex flex-col overflow-hidden relative"
+          onMouseDown={(e) => e.stopPropagation()}
+        >
+          <header className="flex justify-between items-stretch w-full h-12 border-gray-primary border-b text-lg font-semibold">
+            <div className="ml-4 h-full">
+              <button className="h-full" onClick={handleBack}>
+                <ArrowBackwardIcon />
+              </button>
+            </div>
+            <div className="self-center">Set Avatar</div>
+            <div className="mr-4 h-full">
+              <button
+                onClick={handleNext}
+                className={`h-full font-bold text-blue-medium ${
+                  !photo ? "opacity-40 cursor-default" : null
+                }`}
+              >
+                Next
+              </button>
+            </div>
+          </header>
+
+          <AvatarCanvas photo={photo} setPhoto={setPhoto} setCrop={setCrop} />
+
+          {uploading ? <UploadingDialog /> : null}
+        </div>
+      </div>
+    </>
   );
 }
 

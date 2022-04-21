@@ -2,20 +2,27 @@ import { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import Skeleton from "react-loading-skeleton";
 import UserContext from "../../context/user";
+import ChangeAvatar from "../ChangeAvatar";
+import Avatar from "../Avatar";
 import {
   addFollower,
   isUserFollowingProfile,
   toggleFollow,
 } from "../../services/firebase";
-import Avatar from "../Avatar";
 
 export default function ProfileHeader({ profile, info, setFollowercount }) {
   const user = useContext(UserContext); //this represents the logged in user
+
+  const [showOverlay, setShowOverlay] = useState(true);
 
   const [isFollowingProfile, setIsFollowingProfile] = useState(false);
 
   const activeBtnFollow =
     profile.username && profile.username !== user.username;
+
+  function overlayToggle() {
+    setShowOverlay(!showOverlay);
+  }
 
   const handleToggleFollow = async () => {
     setFollowercount({
@@ -44,16 +51,7 @@ export default function ProfileHeader({ profile, info, setFollowercount }) {
   return (
     <div className="grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg border-b border-gray-primary pb-4">
       <div className="container flex justify-center">
-        <div className="w-40 rounded-full flex overflow-hidden relative group">
-          <div
-            className={`absolute bg-black-faded w-full h-1/4 bottom-0 left-0 z-10 justify-center hidden ${
-              user.username === profile.username && "group-hover:flex"
-            }`}
-          >
-            <p className="text-white">Change</p>
-          </div>
-          <Avatar user={profile.username} size={40} clickable={false} />
-        </div>
+        <ChangeAvatar profile={profile} />
       </div>
       <div className="flex items-center justify-center flex-col col-span-2">
         <div className="container flex items-center">
