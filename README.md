@@ -8,7 +8,7 @@
 - [x] Timeline
 - [x] Comments
 - [x] Profile Page
-- [x] Photo Overlay on Profile Page
+- [x] Photo Details Modal
 - [x] Actual Avatar and Photo Upload support
 - [ ] Support for profile viewing as a guest
 
