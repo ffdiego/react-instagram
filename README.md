@@ -8,8 +8,9 @@
 - [x] Timeline
 - [x] Comments
 - [x] Profile Page
-- [ ] Photo Overlay on Profile Page
-- [ ] Actual Avatar and Photo Upload support
+- [x] Photo Details Modal
+- [x] Actual Avatar and Photo Upload support
+- [ ] Support for profile viewing as a guest
 
 ## 💻 Main Dependencies
 
