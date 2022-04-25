@@ -8,7 +8,7 @@ export default function Avatar({ user, size, clickable = true }) {
       className={`rounded-full w-${_size} h-${_size} flex`}
       src={AvatarURL(user)}
       onError={(e) => {
-        e.target.src = "/images/avatars/default.png";
+        e.target.src = "/images/defaultavatar.png";
       }}
       alt={`${user} profile`}
     />
