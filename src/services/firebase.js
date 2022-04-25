@@ -121,10 +121,13 @@ export async function getUserPhotosByUsername(username) {
     .where("author", "==", username)
     .get();
 
-  return result.docs.map((item) => ({
+  const userPhotos = result.docs.map((item) => ({
     ...item.data(),
     docId: item.id,
   }));
+
+  userPhotos.sort((a, b) => b.dateCreated - a.dateCreated);
+  return userPhotos;
 }
 
 export async function isUserFollowingProfile(username, profile) {
