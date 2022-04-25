@@ -41,7 +41,7 @@ export default function Signup() {
           dateCreated: Date.now(),
         });
 
-        navigate(ROUTES.DASHBOARD);
+        document.location.reload();
       } catch (err) {
         setEmail("");
         setUsername("");
