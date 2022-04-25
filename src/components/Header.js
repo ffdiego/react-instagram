@@ -12,7 +12,6 @@ export default function Header() {
   const navigate = useNavigate();
   const { firebase } = useContext(FirebaseContext);
   const user = useContext(UserContext);
-  const username = user.username;
 
   const [showOverlay, setShowOverlay] = useState(false);
 
@@ -69,7 +68,7 @@ export default function Header() {
                 </button>
 
                 <div className="flex items-center cursor-pointer">
-                  <Avatar user={username} size={8} />
+                  <Avatar user={user?.username} size={8} />
                 </div>
               </>
             ) : (

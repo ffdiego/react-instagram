@@ -6,13 +6,14 @@ import UserContext from "../../context/user";
 import { LikeIcon, CommentIcon } from "../Icons";
 
 export default function Actions({ photo, handleFocus }) {
-  const username = useContext(UserContext).username;
+  const username = useContext(UserContext)?.username;
   const docId = photo.docId;
 
   const [toggleLiked, setToggleLiked] = useState(false);
   const [likes, setLikes] = useState(0);
 
   const handleToggleLiked = async () => {
+    if (!username) return;
     setToggleLiked((toggleLiked) => !toggleLiked);
     likePhoto(docId, username, toggleLiked);
     setLikes((likes) => (toggleLiked ? likes - 1 : likes + 1));

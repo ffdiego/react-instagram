@@ -8,7 +8,10 @@ import { uploadAvatar } from "../../services/firestore";
 
 export default function ChangeAvatar({ profile, size }) {
   const user = useContext(UserContext);
-  const profileIsUser = profile.username === user.username;
+  function profileIsUser() {
+    if (!user) return false;
+    return profile.username === user.username;
+  }
   const _size = size || 40;
 
   function overlayToggle() {
@@ -19,7 +22,6 @@ export default function ChangeAvatar({ profile, size }) {
   const [showOverlay, setShowOverlay] = useState(false);
   const [photo, setPhoto] = useState(null);
   const [crop, setCrop] = useState(null);
-  const [cropBlob, setCropBlob] = useState(null);
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
@@ -48,7 +50,6 @@ export default function ChangeAvatar({ profile, size }) {
     setUploading(true);
     crop.toBlob(
       (blob) => {
-        console.log("blob", blob);
         const uploadTask = uploadAvatar(blob, user.username);
         uploadTask.then(() => {
           setUploading(false);

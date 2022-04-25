@@ -3,33 +3,21 @@ import PropTypes from "prop-types";
 import Skeleton from "react-loading-skeleton";
 import UserContext from "../../context/user";
 import ChangeAvatar from "../ChangeAvatar";
-import Avatar from "../Avatar";
-import {
-  addFollower,
-  isUserFollowingProfile,
-  toggleFollow,
-} from "../../services/firebase";
+import { addFollower, isUserFollowingProfile } from "../../services/firebase";
 
-export default function ProfileHeader({ profile, info, setFollowercount }) {
+export default function ProfileHeader({ profile, info }) {
   const user = useContext(UserContext); //this represents the logged in user
 
-  const [showOverlay, setShowOverlay] = useState(true);
-
   const [isFollowingProfile, setIsFollowingProfile] = useState(false);
+  const [followerCount, setFollowerCount] = useState(0);
 
-  const activeBtnFollow =
-    profile.username && profile.username !== user.username;
-
-  function overlayToggle() {
-    setShowOverlay(!showOverlay);
+  function showFollowButton() {
+    if (!user) return false;
+    return profile?.username !== user?.username;
   }
 
   const handleToggleFollow = async () => {
-    setFollowercount({
-      followerCount: isFollowingProfile
-        ? profile.followerCount - 1
-        : profile.followerCount + 1,
-    });
+    setFollowerCount((prev) => (isFollowingProfile ? prev - 1 : prev + 1));
     setIsFollowingProfile(!isFollowingProfile);
     await addFollower(user.username, profile.username, isFollowingProfile);
   };
@@ -46,7 +34,11 @@ export default function ProfileHeader({ profile, info, setFollowercount }) {
     if (user?.username && profile.username) {
       if (profile.username !== user.username) isLoggedInUserFollowingProfile();
     }
-  }, [user.username, profile.username]);
+  }, [user, profile]);
+
+  useEffect(() => {
+    setFollowerCount((prev) => info?.followerCount);
+  }, [info, setFollowerCount]);
 
   return (
     <div className="grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg border-b border-gray-primary pb-4">
@@ -56,7 +48,7 @@ export default function ProfileHeader({ profile, info, setFollowercount }) {
       <div className="flex items-center justify-center flex-col col-span-2">
         <div className="container flex items-center">
           <p className="text-2xl mr-4">{profile.username}</p>
-          {activeBtnFollow && (
+          {showFollowButton() && (
             <button
               className={`${
                 isFollowingProfile ? "bg-red-medium" : "bg-blue-medium"
@@ -78,8 +70,8 @@ export default function ProfileHeader({ profile, info, setFollowercount }) {
                 {info.photosCount !== 1 ? " photos" : " photo"}
               </p>
               <p className="mr-10">
-                <span className="font-bold">{info.followerCount}</span>
-                {info.followerCount !== 1 ? " followers" : " follower"}
+                <span className="font-bold">{followerCount}</span>
+                {followerCount !== 1 ? " followers" : " follower"}
               </p>
               <p className="mr-10">
                 <span className="font-bold">{info.followingCount}</span>{" "}
@@ -102,7 +94,6 @@ ProfileHeader.propTypes = {
   photosCount: PropTypes.number,
   followerCount: PropTypes.number,
   followingCount: PropTypes.number,
-  setFollowercount: PropTypes.func.isRequired,
   profile: PropTypes.shape({
     docId: PropTypes.string,
     userId: PropTypes.string,

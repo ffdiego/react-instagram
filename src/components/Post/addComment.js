@@ -10,10 +10,11 @@ export default function AddComment({
   commentInput,
 }) {
   const [comment, setComment] = useState("");
-  const username = useContext(UserContext).username;
+  const username = useContext(UserContext)?.username;
 
   const handleSubmitComment = (e) => {
     e.preventDefault();
+    if (!username) return;
     const created = new Date();
     setComments([...comments, { username, comment, created }]);
     setComment("");
@@ -33,9 +34,10 @@ export default function AddComment({
           aria-label="Add a comment"
           autoComplete="off"
           className="text-sm text-gray-base w-full mr-3 py-5 px-4 outline-none"
-          placeholder="Add a comment..."
+          placeholder={(username && "Add a comment...") || "Log in to comment"}
           type="text"
           name="add-comment"
+          disabled={!username}
           value={comment}
           onChange={({ target }) => setComment(target.value)}
           ref={commentInput}

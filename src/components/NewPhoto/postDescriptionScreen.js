@@ -17,7 +17,7 @@ export default function PostDescriptionScreen({
       setText(text.slice(0, 125));
     }
     setDescription(text);
-  }, [text]);
+  }, [text, setDescription]);
 
   function textHandler(e) {
     const text = e.target.value;
@@ -27,7 +27,7 @@ export default function PostDescriptionScreen({
   return (
     <div className="[height:60vh] flex">
       <div className="flex items-center [min-width:300px]">
-        <img src={photo} className="max-h-full" />
+        <img src={photo} alt="" className="max-h-full" />
       </div>
       <div className="h-full [width:40vh] [min-width:250px] border-l border-b border-gray-primary flex flex-col items-start">
         <div className="flex p-4 items-center">

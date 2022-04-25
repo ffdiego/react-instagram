@@ -2,7 +2,6 @@ import { formatDistance } from "date-fns";
 import Avatar from "../Avatar";
 
 export default function Comment({ author, message, created, commentListView }) {
-  console.log("time", created);
   const timeAgo = (created && formatDistance(created, new Date())) || null;
 
   return (

@@ -83,6 +83,7 @@ export default function NewPhoto({ showOverlay, toggleOverlay }) {
         uploadTask.then(() => {
           setUploading(false);
           exit();
+          document.location.reload();
         });
         break;
       default:

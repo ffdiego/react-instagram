@@ -1,22 +1,12 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { getProfile, getUserPhotosByUsername } from "../../services/firebase";
+import { getProfile } from "../../services/firebase";
 
 import ProfileHeader from "./profileHeader";
 import Photos from "./photos";
 import PhotoOverlay from "../PhotoOverlay";
 
 export default function UserProfile({ profile }) {
-  //reducer
-  const reducer = (state, newState) => ({ ...state, ...newState });
-  const initialState = {
-    photosCollection: [],
-    followerCount: 0,
-  };
-  const [{ photosCollection, followerCount }, dispatch] = useState(
-    reducer,
-    initialState
-  );
   const [profileInfo, setProfileInfo] = useState(null);
   const [showOverlay, setShowOverlay] = useState(false);
   const [activePhoto, setActivePhoto] = useState(null);
@@ -38,11 +28,7 @@ export default function UserProfile({ profile }) {
 
   return (
     <div>
-      <ProfileHeader
-        profile={profile}
-        info={profileInfo}
-        setFollowercount={dispatch}
-      />
+      <ProfileHeader profile={profile} info={profileInfo} />
       <Photos photos={profileInfo?.photos} toggleOverlay={toggleOverlay} />
       <PhotoOverlay
         showOverlay={showOverlay}

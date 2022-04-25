@@ -1,6 +1,5 @@
 import { PhotosUploadIcon } from "../Icons";
-import { uploadFile } from "../../services/firestore";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
 
 export default function photoCanvas({ photo, setPhoto, setCrop, setStep }) {

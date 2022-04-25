@@ -1,4 +1,3 @@
-import { useState, useReducer, useEffect } from "react";
 import PropTypes from "prop-types";
 import Skeleton from "react-loading-skeleton";
 import { LikeIconFull, CommentIconFull } from "../Icons";
