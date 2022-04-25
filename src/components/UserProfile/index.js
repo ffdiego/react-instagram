@@ -32,10 +32,9 @@ export default function UserProfile({ profile }) {
   useEffect(() => {
     async function getProfileInfoAndPhotos() {
       setProfileInfo(await getProfile(profile.username));
-      console.log(profileInfo);
     }
     if (profile.username) getProfileInfoAndPhotos();
-  }, [profile.username]);
+  }, [profile]);
 
   return (
     <div>

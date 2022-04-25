@@ -22,7 +22,7 @@ export default function PhotoOverlay({
       onClick={toggleOverlay}
     >
       <div
-        className="bg-white [max-height:90%] mx-auto drop-shadow-2xl rounded-r-lg flex"
+        className="bg-white [max-height:90%] [min-height:70%] mx-auto drop-shadow-2xl rounded-r-lg flex"
         onClick={(e) => e.stopPropagation()}
       >
         {photo && profile && (

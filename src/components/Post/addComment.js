@@ -14,7 +14,8 @@ export default function AddComment({
 
   const handleSubmitComment = (e) => {
     e.preventDefault();
-    setComments([...comments, { username, comment }]);
+    const created = new Date();
+    setComments([...comments, { username, comment, created }]);
     setComment("");
     addCommentFB(username, comment, docId);
   };
@@ -31,7 +32,7 @@ export default function AddComment({
         <input
           aria-label="Add a comment"
           autoComplete="off"
-          className="text-sm text-gray-base w-full mr-3 py-5 px-4"
+          className="text-sm text-gray-base w-full mr-3 py-5 px-4 outline-none"
           placeholder="Add a comment..."
           type="text"
           name="add-comment"

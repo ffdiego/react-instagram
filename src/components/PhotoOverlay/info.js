@@ -26,11 +26,19 @@ export default function Info({ photo, profile }) {
       {/* Header */}
       <div className="flex items-center p-4 px-3 border-b border-gray-primary">
         <Avatar user={profile.username} />
-        <div className="ml-3 items-center">
-          <Link to={`/${profile.username}`} className="font-bold text-sm mr-1">
-            {profile.username}
-          </Link>
-          • <span className="font-bold text-blue-medium">Follow</span>
+        <div className="ml-3 flex flex-col">
+          <span>
+            <Link
+              to={`/${profile.username}`}
+              className="font-bold text-sm mr-1"
+            >
+              {profile.username}
+            </Link>
+            • <span className="font-bold text-blue-medium">Follow</span>
+          </span>
+          <span className="text-sm font-thin text-gray-base">
+            {photo.place}
+          </span>
         </div>
       </div>
       <div className="flex-grow overflow-auto max-h-full">
@@ -40,6 +48,7 @@ export default function Info({ photo, profile }) {
             key={item.created}
             author={item.username}
             message={item.comment}
+            created={item.created}
             commentListView={commentListView}
           />
         ))}
