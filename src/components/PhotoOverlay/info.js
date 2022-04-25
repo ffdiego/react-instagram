@@ -34,7 +34,6 @@ export default function Info({ photo, profile }) {
             >
               {profile.username}
             </Link>
-            • <span className="font-bold text-blue-medium">Follow</span>
           </span>
           <span className="text-sm font-thin text-gray-base">
             {photo.place}
@@ -42,7 +41,11 @@ export default function Info({ photo, profile }) {
         </div>
       </div>
       <div className="flex-grow overflow-auto max-h-full">
-        <Comment author={profile.username} message={photo?.caption} />
+        <Comment
+          author={profile.username}
+          message={photo?.caption}
+          created={photo?.dateCreated}
+        />
         {comments.map((item) => (
           <Comment
             key={item.created}

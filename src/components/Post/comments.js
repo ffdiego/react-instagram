@@ -32,7 +32,10 @@ export default function Comments({
             <span>{item.comment}</span>
           </p>
         ))}
-        <p className="text-gray-base uppercase text-xs mt-2">
+        <p
+          className="text-gray-base uppercase text-xs mt-2 cursor-pointer"
+          onClick={(e) => toggleOverlay(e, photo)}
+        >
           {formatDistance(posted, new Date())} ago
         </p>
       </div>
