@@ -35,13 +35,18 @@ export async function uploadPhoto(base64url_file, user, caption, place) {
 
   const fileRef = ref(storage, `photos/${user}/${filename}.jpg`);
 
-  const uploadTask = uploadBytesResumable(fileRef, base64url_file, {
-    contentType: "image/jpeg",
+  const uploadTask = new Promise((resolve, reject) => {
+    uploadBytesResumable(fileRef, base64url_file, {
+      contentType: "image/jpeg",
+    })
+      .then(() => {
+        getDownloadURL(fileRef).then((url) =>
+          addPhoto(user, caption, place, url).then(() => resolve())
+        );
+      })
+      .catch((error) => reject(error));
   });
 
-  uploadTask.then(() => {
-    getDownloadURL(fileRef).then((url) => addPhoto(user, caption, place, url));
-  });
   return uploadTask;
 }
 
