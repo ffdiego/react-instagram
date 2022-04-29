@@ -15,7 +15,7 @@ export default function ChangeAvatar({ profile, size }) {
   const _size = size || 40;
 
   function overlayToggle() {
-    if (!profileIsUser) return;
+    if (!profileIsUser()) return;
     setShowOverlay(!showOverlay);
   }
 
@@ -70,7 +70,7 @@ export default function ChangeAvatar({ profile, size }) {
       >
         <div
           className={`absolute bg-black-faded w-full h-1/4 bottom-0 left-0 z-10 justify-center hidden ${
-            profileIsUser && "group-hover:flex"
+            profileIsUser() && "group-hover:flex"
           }`}
         >
           <p className="text-white">Change</p>
